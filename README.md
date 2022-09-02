@@ -1,1 +1,6 @@
 # Destiny's Child
+
+
+
+
+Hi, my name is Mohamad Chaker! The backend developer on the team. My work will be fullstack leaning more towards backend. I have done some mobile development with swift/xcode but not java/android-studio so I think this will be a great learning opportunity.
