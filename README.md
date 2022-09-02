@@ -8,3 +8,5 @@ Hi, my name is Mohamad Chaker! The backend developer on the team. My work will b
 Hello! My name is Destiny Haist. I am the team lead for Destiny's Child. My work will be frontend leaning. I have experience working in Android Studio, and I look forward to developing an app I will be proud to show to people.
 
 Hi! My name is Ali Mohamed. This is my first time developing an app. And, although I plan to include myself in every aspect of the project, I primarily want to work with the database as database knowledge was the thing I was lacking at my internship this summer.
+
+Hello, my name is Ariel Gordon. I am the backend developer, this will be my first time working closely with Android studio and android apps in general. I think this will be a great learning opportunitity for me to learn the in's and out's of creating a app. As well becoming proificent in a new prograaming language! 
