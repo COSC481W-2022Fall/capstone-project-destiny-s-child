@@ -1,5 +1,5 @@
 # Vibe
-## Destiny's Child
+### Destiny's Child
 
 We are creating a live chat mobile application. It will have 5 views,
 1- login
