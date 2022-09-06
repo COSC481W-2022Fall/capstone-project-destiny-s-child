@@ -11,3 +11,5 @@ Hello, my name is Ariel Gordon. I am the backend developer, this will be my firs
 Hi, My name is Mohammed Benloucif and I am in my senior year at Eastern Michigan, on track to recieving a Bachelors of Science in Computer Science (Curriculum). I will mostly be taking part in frontend development. This is my first time developing a mobile application and I am always ready to learn new skills. 
 
 Hello everyone, my name is Mohamed Kaid I'm a senior at Easter Michigan. I do have some experience in android studio, and I do plan on helping where ever I'm needed. This is a good opportunity for me to have both the experience in developing an app and work with a team.
+
+Hello everyone, my name is Fabian Mendoza. I do have some experience developing web apps. This would be the first time I'll be working on an app so this will be challenging but fun as well.
