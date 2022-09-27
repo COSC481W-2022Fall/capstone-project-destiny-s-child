@@ -16,5 +16,8 @@ public class SplashScrren extends AppCompatActivity {
 
 
 
+
+        
+        //this is the splash screen
     }
 }
