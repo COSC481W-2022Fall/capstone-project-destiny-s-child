@@ -1,4 +1,4 @@
-package com.example.loginpage;
+package com.example.vibe;
 
 import org.junit.Test;
 
