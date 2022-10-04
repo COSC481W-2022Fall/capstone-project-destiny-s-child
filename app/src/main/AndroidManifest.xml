@@ -17,7 +17,7 @@
             android:name="com.example.vibe.Settings_View"
             android:exported="false" />
         <activity
-            android:name="com.example.vibe.conversation_view"
+            android:name="com.example.vibe.ConversationView"
             android:exported="false" />
         <activity
             android:name="com.example.vibe.login"
