@@ -19,7 +19,7 @@ Hi! My name is Ali Mohamed. This is my first time developing an app. And, althou
 
 Hello, my name is Ariel Gordon. I am the backend developer, this will be my first time working closely with Android studio and android apps in general. I think this will be a great learning opportunitity for me to learn the in's and out's of creating a app. As well becoming proificent in a new prograaming language! 
 
-Hi, My name is Mohammed Benloucif and I am in my senior year at Eastern Michigan, on track to recieving a Bachelors of Science in Computer Science (Curriculum). I will mostly be taking part in frontend development. This is my first time developing a mobile application and I am always ready to learn new skills. 
+Hi, My name is Mohammed Benloucif and I am in my senior year at Eastern Michigan, on track to recieving a Bachelors of Science in Computer Science (Curriculum). This is my first time developing a mobile application and I am always ready to learn new skills. 
 
 Hello everyone, my name is Mohamed Kaid I'm a senior at Easter Michigan. I do have some experience in android studio, and I do plan on helping where ever I'm needed. This is a good opportunity for me to have both the experience in developing an app and work with a team.
 
