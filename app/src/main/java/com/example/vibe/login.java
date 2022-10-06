@@ -8,7 +8,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Button;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class login extends AppCompatActivity {
+
+    // Access a Cloud Firestore instance from your Activity
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     EditText mEmail, mPassword;
     Button mLoginBtn;
