@@ -21,12 +21,6 @@
             android:exported="false" />
         <activity
             android:name="com.example.vibe.login"
-            android:exported="false" />
-        <activity
-            android:name="com.example.vibe.register"
-            android:exported="false" />
-        <activity
-            android:name="com.example.vibe.SplashScrren"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,13 +29,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.vibe.MainActivity"
+            android:name="com.example.vibe.register"
+            android:exported="false" />
+        <activity
+            android:name="com.example.vibe.SplashScrren"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name="com.example.vibe.MainActivity"
+            android:exported="false">
         </activity>
     </application>
 
