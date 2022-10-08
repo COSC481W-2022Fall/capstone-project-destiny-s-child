@@ -1,14 +1,21 @@
 package com.example.vibe;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ChatLog extends AppCompatActivity {
-    Button settingsButton, addButton;
+    FloatingActionButton addButton;
+    ImageView settingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +23,7 @@ public class ChatLog extends AppCompatActivity {
         setContentView(R.layout.activity_chat_log);
 
         // settings button with intent
-        settingsButton = (Button)findViewById(R.id.settingsButton);
+        settingsButton = (ImageView)findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -26,7 +33,7 @@ public class ChatLog extends AppCompatActivity {
         });
 
         // add button with intent
-        addButton = (Button)findViewById(R.id.addButton);
+        addButton = (FloatingActionButton) findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
