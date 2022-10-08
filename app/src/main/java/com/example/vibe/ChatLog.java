@@ -1,14 +1,19 @@
 package com.example.vibe;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class ChatLog extends AppCompatActivity {
-    Button settingsButton, addButton;
+    Button addButton;
+    ImageView settingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +21,7 @@ public class ChatLog extends AppCompatActivity {
         setContentView(R.layout.activity_chat_log);
 
         // settings button with intent
-        settingsButton = (Button)findViewById(R.id.settingsButton);
+        settingsButton = (ImageView)findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
