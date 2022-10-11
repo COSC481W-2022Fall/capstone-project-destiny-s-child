@@ -14,6 +14,7 @@ public class Settings_View extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skeleton_view);
+        getSupportActionBar().hide();
 
         this.getSupportActionBar().setHomeButtonEnabled(true);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
