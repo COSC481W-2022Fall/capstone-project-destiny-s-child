@@ -41,12 +41,14 @@ public class register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+
         //initializing widgets
         userET = findViewById(R.id.fullname);
         passET = findViewById(R.id.password);
         emailET = findViewById(R.id.email);
         registerBtn = findViewById(R.id.registerBtn);
         logIn = (TextView)findViewById(R.id.createtext);
+
 
 
         //instantiating Firebase authentication

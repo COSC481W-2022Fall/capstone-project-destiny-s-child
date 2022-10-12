@@ -22,6 +22,7 @@ public class ChatLog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_log);
 
+        getSupportActionBar().hide();
         // settings button with intent
         settingsButton = (ImageView)findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {

@@ -28,7 +28,7 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        getSupportActionBar().hide();
         // temporary redirect to chat log view
         mLoginBtn = (Button) findViewById(R.id.loginBtn);
         mLoginBtn.setOnClickListener(new View.OnClickListener() {

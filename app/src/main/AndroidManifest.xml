@@ -25,7 +25,7 @@
             android:name="com.example.vibe.ConversationView"
             android:exported="false" />
         <activity
-            android:name="com.example.vibe.login"
+            android:name="com.example.vibe.SplashScrren"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +37,7 @@
             android:name="com.example.vibe.register"
             android:exported="false" />
         <activity
-            android:name="com.example.vibe.SplashScrren"
+            android:name="com.example.vibe.login"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->

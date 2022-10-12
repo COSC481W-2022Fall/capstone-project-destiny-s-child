@@ -4,31 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#407E91"
+    android:background="@drawable/background"
     tools:context=".SplashScrren">
 
-
-
     <ImageView
-        android:id="@+id/appsplash"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:src="@mipmap/ic_launcher_round"
-        android:layout_centerInParent="true"
-        />
-
-    <TextView
-        android:id="@+id/appname"
+        android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login Page"
-        android:textColor="#FFFFFF"
-        android:layout_below="@+id/appsplash"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        />
-
-
+        app:srcCompat="@drawable/ic_print_transparent" />
 </RelativeLayout>
