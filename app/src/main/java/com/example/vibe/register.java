@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,18 +26,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class register extends AppCompatActivity {
-
     //widgets
     EditText userET, passET, emailET;
     Button registerBtn;
-
+    TextView logIn;
     //access Firebase authentication
     FirebaseAuth auth;
     // Access a Cloud Firestore instance from your Activity
     FirebaseFirestore db;
-
     String userID;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,21 +46,27 @@ public class register extends AppCompatActivity {
         passET = findViewById(R.id.password);
         emailET = findViewById(R.id.email);
         registerBtn = findViewById(R.id.registerBtn);
+        logIn = (TextView)findViewById(R.id.createtext);
+
 
         //instantiating Firebase authentication
         auth = FirebaseAuth.getInstance();
         //instantiating Firestore Database
         db = FirebaseFirestore.getInstance();
 
+        if(auth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(),ChatLog.class));
+            finish();
+        }
 
         //adding event listener to register button
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String email_text = userET.getText().toString();
+                String email_text = emailET.getText().toString();
                 String username_text = userET.getText().toString();
-                String password_text = userET.getText().toString();
+                String password_text = passET.getText().toString();
 
                 //checks to see if all fields are filled (very basic check)
                 if (TextUtils.isEmpty(email_text) || TextUtils.isEmpty(username_text) || TextUtils.isEmpty(password_text)){
@@ -95,13 +99,19 @@ public class register extends AppCompatActivity {
                             user.put("password",password);
 
                             //if successful, directs you to the login page
-                            startActivity(new Intent(getApplicationContext(),login.class));
+                            startActivity(new Intent(getApplicationContext(),ChatLog.class));
 
                         }
 
                     }
                 });
 
+        logIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),login.class));
+            }
+        });
 
     }
 
