@@ -38,5 +38,17 @@ public class login extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mCreateBtn = (TextView)findViewById(R.id.createtext);
+        mCreateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),register.class));
+            }
+        });
+
+
     }
+
+
 }
