@@ -2,6 +2,8 @@ package com.example.vibe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -18,6 +20,8 @@ public class Settings_View extends AppCompatActivity {
 
         this.getSupportActionBar().setHomeButtonEnabled(true);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ColorDrawable color = new ColorDrawable(Color.parseColor("#6D37AE"));
+        this.getSupportActionBar().setBackgroundDrawable(color);
 
         img = (ImageView) findViewById(R.id.imageView);
         //This is something that will need to be changed later
