@@ -44,7 +44,7 @@ public class ChatLog extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChatLog.this, ConversationView.class);
+                Intent intent = new Intent(ChatLog.this, FriendSearch.class);
                 startActivity(intent);
             }
         });
