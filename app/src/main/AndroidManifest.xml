@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.vibe">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,13 +16,18 @@
         android:theme="@style/Theme.LoginPage"
         tools:targetApi="31">
         <activity
+            android:name="com.example.vibe.ChatLog"
+            android:exported="false"
+            android:theme="@style/Theme.Design.NoActionBar"/>
+        <activity
             android:name="com.example.vibe.Settings_View"
             android:exported="false" />
         <activity
             android:name="com.example.vibe.ConversationView"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Design.NoActionBar"/>
         <activity
-            android:name="com.example.vibe.login"
+            android:name="com.example.vibe.SplashScrren"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,7 +39,7 @@
             android:name="com.example.vibe.register"
             android:exported="false" />
         <activity
-            android:name="com.example.vibe.SplashScrren"
+            android:name="com.example.vibe.login"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -44,6 +51,9 @@
             android:name="com.example.vibe.MainActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name="com.example.vibe.FriendSearch"
+            android:exported="false"/>
     </application>
 
 </manifest>

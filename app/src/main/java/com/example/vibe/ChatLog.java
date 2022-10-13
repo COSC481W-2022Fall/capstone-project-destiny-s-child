@@ -1,5 +1,6 @@
 package com.example.vibe;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -11,14 +12,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class ChatLog extends AppCompatActivity {
-    Button addButton;
+    FloatingActionButton addButton;
     ImageView settingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_log);
+
+        // toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
+        setSupportActionBar(toolbar);
+
+        //do not display name of app
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+      //  ActionBar actionBar = getSupportActionBar();
 
         // settings button with intent
         settingsButton = (ImageView)findViewById(R.id.settingsButton);
@@ -31,11 +42,11 @@ public class ChatLog extends AppCompatActivity {
         });
 
         // add button with intent
-        addButton = (Button)findViewById(R.id.addButton);
+        addButton = (FloatingActionButton)findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChatLog.this, ConversationView.class);
+                Intent intent = new Intent(ChatLog.this, FriendSearch.class);
                 startActivity(intent);
             }
         });
