@@ -2,18 +2,12 @@ package com.example.vibe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
-
-
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import android.widget.ImageView;
-
-
-
 
 public class Settings_View extends AppCompatActivity {
 
@@ -23,7 +17,7 @@ public class Settings_View extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skeleton_view);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         this.getSupportActionBar().setHomeButtonEnabled(true);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
