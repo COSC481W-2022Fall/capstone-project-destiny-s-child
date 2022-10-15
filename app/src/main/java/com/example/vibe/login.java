@@ -20,14 +20,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class login extends AppCompatActivity {
 
+    // firebase fields
     FirebaseFirestore db;
     FirebaseAuth auth;
 
+    // widget fields
     EditText emailET, passET;
     Button loginBtn;
     TextView newUserRedirectText;
     ProgressBar progressBar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class login extends AppCompatActivity {
         emailET = findViewById(R.id.email);
         passET = findViewById(R.id.password);
 
-        // instantiating Firebase authentication and Database
+        // getting Firebase authentication and Database instances
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -49,7 +50,7 @@ public class login extends AppCompatActivity {
 //            finish();
 //        }
 
-        // temporary redirect to chat log view
+        // Begin attempt to login by getting email and password
         loginBtn = (Button) findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +59,7 @@ public class login extends AppCompatActivity {
                 String emailText = emailET.getText().toString();
                 String passwordText = passET.getText().toString();
 
-                // checks for missing value -- attempts login
+                // displays toast if value missing -- attempts login
                 if(emailText.isEmpty() || passwordText.isEmpty()) {
                     Toast.makeText(login.this, "please fill all text fields" ,Toast.LENGTH_SHORT).show();
                 } else {
@@ -67,17 +68,22 @@ public class login extends AppCompatActivity {
             }
         });
 
-
+        // Redirecting to registration on pressing of the "New Account" text
         newUserRedirectText = (TextView)findViewById(R.id.createtext);
         newUserRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(register.class.toString());
                 startActivity(new Intent(getApplicationContext(),register.class));
             }
         });
     }
 
+    /**
+     * Will attempt to sign in with email and password via firebase authorization
+     * and display a toast if either email or password is incorrect.
+     * @param emailText the email entered into the email text field
+     * @param passwordText the password entered into the password text field
+     */
     private void attemptLogin(String emailText, String passwordText) {
         auth.signInWithEmailAndPassword(emailText, passwordText)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -87,6 +93,7 @@ public class login extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(),ChatLog.class));
                         } else {
                             Toast.makeText(login.this, "Incorrect email or password" ,Toast.LENGTH_SHORT).show();
+                            //TODO: throw exception
                         }
                     }
                 });

@@ -41,15 +41,12 @@ public class register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-
         //initializing widgets
         userET = findViewById(R.id.fullname);
         passET = findViewById(R.id.password);
         emailET = findViewById(R.id.email);
         registerBtn = findViewById(R.id.registerBtn);
         logIn = (TextView)findViewById(R.id.createtext);
-
-
 
         //instantiating Firebase authentication
         auth = FirebaseAuth.getInstance();
@@ -61,7 +58,8 @@ public class register extends AppCompatActivity {
 //            finish();
 //        }
 
-        //adding event listener to register button
+        // Will redirect to chat log on success
+        // adding event listener to register button
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,31 +68,44 @@ public class register extends AppCompatActivity {
                 String username_text = userET.getText().toString();
                 String password_text = passET.getText().toString().trim();
 
-                if(TextUtils.isEmpty(email_text)){
-                    emailET.setError("Email is required.");
-                    return;
-                }
-
-                if(TextUtils.isEmpty(password_text)){
-                    passET.setError("Password is required.");
-                    return;
-                }
-
-                if(password_text.length() < 6){
-                    passET.setError("Must be longer than 6 characters.");
-                    return;
-                }
-
-                //checks to see if all fields are filled (very basic check)
-                if (TextUtils.isEmpty(email_text) || TextUtils.isEmpty(username_text) || TextUtils.isEmpty(password_text)){
+                // return if values missing
+                if(missingValueError(email_text, username_text, password_text)) {
                     Toast.makeText(register.this, "please fill all text fields" ,Toast.LENGTH_SHORT).show();
-                }else{
-                    //if all fields are filled, call RegisterNow method
-                    RegisterNow(username_text, email_text, password_text);
+                    return;
                 }
+
+                //if all fields are filled, call RegisterNow method
+                RegisterNow(username_text, email_text, password_text);
+            }
+
+            // set error message for fields with missing values
+            private boolean missingValueError(String email, String username, String password) {
+                boolean valuesMissing = false;
+
+                if(TextUtils.isEmpty(email)){
+                    emailET.setError("Email is required.");
+                    valuesMissing = true;
+                }
+
+                if(TextUtils.isEmpty(username)){
+                    userET.setError("Username is required.");
+                    valuesMissing = true;
+                }
+
+                if(TextUtils.isEmpty(password)){
+                    passET.setError("Password is required.");
+                    valuesMissing = true;
+                }else if(password.length() < 6){
+                    passET.setError("Must be longer than 6 characters.");
+                    valuesMissing = true;
+                }
+
+                return valuesMissing;
             }
         });
 
+        // Will redirect to Login
+        // Redirecting to login on pressing of the "Already have an account" text
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +114,12 @@ public class register extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Will register a new user with their username, email, and password.
+     * @param username the username entered into the username text field
+     * @param email the email entered into the email text field
+     * @param password the password entered into the password text field
+     */
     private void RegisterNow(final String username, String email, String password){
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -111,6 +127,8 @@ public class register extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()){
+                            // TODO: handle email already existing
+
                             //creates a user ID for an account that is to be authorized
                             FirebaseUser firebaseUser = auth.getCurrentUser();
                             userID = firebaseUser.getUid();
@@ -129,14 +147,10 @@ public class register extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(),ChatLog.class));
 
                         }else{
-                            Toast.makeText(register.this, "Email is already in use, please register using a different email address." ,Toast.LENGTH_LONG).show();
+                            //Toast.makeText(register.this, "Email is already in use, please register using a different email address." ,Toast.LENGTH_LONG).show();
+                            Toast.makeText(register.this, "Invalid email, please register using a different email address." ,Toast.LENGTH_LONG).show();
                         }
-
                     }
                 });
-
-
-
     }
-
 }
