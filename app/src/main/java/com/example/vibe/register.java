@@ -56,19 +56,34 @@ public class register extends AppCompatActivity {
         //instantiating Firestore Database
         db = FirebaseFirestore.getInstance();
 
-        if(auth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),ChatLog.class));
-            finish();
-        }
+//        if(auth.getCurrentUser() != null){
+//            startActivity(new Intent(getApplicationContext(),ChatLog.class));
+//            finish();
+//        }
 
         //adding event listener to register button
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String email_text = emailET.getText().toString();
+                String email_text = emailET.getText().toString().trim();
                 String username_text = userET.getText().toString();
-                String password_text = passET.getText().toString();
+                String password_text = passET.getText().toString().trim();
+
+                if(TextUtils.isEmpty(email_text)){
+                    emailET.setError("Email is required.");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(password_text)){
+                    passET.setError("Password is required.");
+                    return;
+                }
+
+                if(password_text.length() < 6){
+                    passET.setError("Must be longer than 6 characters.");
+                    return;
+                }
 
                 //checks to see if all fields are filled (very basic check)
                 if (TextUtils.isEmpty(email_text) || TextUtils.isEmpty(username_text) || TextUtils.isEmpty(password_text)){
@@ -77,6 +92,13 @@ public class register extends AppCompatActivity {
                     //if all fields are filled, call RegisterNow method
                     RegisterNow(username_text, email_text, password_text);
                 }
+            }
+        });
+
+        logIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),login.class));
             }
         });
     }
@@ -100,20 +122,20 @@ public class register extends AppCompatActivity {
                             user.put("username",username);
                             user.put("password",password);
 
+                            //adds user input into Firestore database
+                            documentReference.set(user);
                             //if successful, directs you to the login page
+                            Toast.makeText(register.this, "Registration Success!" ,Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(),ChatLog.class));
 
+                        }else{
+                            Toast.makeText(register.this, "Email is already in use, please register using a different email address." ,Toast.LENGTH_LONG).show();
                         }
 
                     }
                 });
 
-        logIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),login.class));
-            }
-        });
+
 
     }
 
