@@ -35,6 +35,20 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
+        // initializing widgets
+        emailET = findViewById(R.id.email);
+        passET = findViewById(R.id.password);
+
+        // instantiating Firebase authentication and Database
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        // if user is already logged in
+//        if(auth.getCurrentUser() != null){
+//            startActivity(new Intent(getApplicationContext(),ChatLog.class));
+//            finish();
+//        }
+
         // temporary redirect to chat log view
         loginBtn = (Button) findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -53,18 +67,12 @@ public class login extends AppCompatActivity {
             }
         });
 
-        // initializing widgets
-        emailET = findViewById(R.id.email);
-        passET = findViewById(R.id.password);
-
-        // instantiating Firebase authentication and Database
-        auth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
 
         newUserRedirectText = (TextView)findViewById(R.id.createtext);
         newUserRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                System.out.println(register.class.toString());
                 startActivity(new Intent(getApplicationContext(),register.class));
             }
         });
