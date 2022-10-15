@@ -122,6 +122,8 @@ public class register extends AppCompatActivity {
                             user.put("username",username);
                             user.put("password",password);
 
+                            //adds user input into Firestore database
+                            documentReference.set(user);
                             //if successful, directs you to the login page
                             Toast.makeText(register.this, "Registration Success!" ,Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(),ChatLog.class));
