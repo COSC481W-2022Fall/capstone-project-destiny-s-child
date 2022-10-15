@@ -22,7 +22,13 @@ public class ChatLog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_log);
 
-        getSupportActionBar().hide();
+        //toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
+        setSupportActionBar(toolbar);
+
+        //do not display title of app
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         // settings button with intent
         settingsButton = (ImageView)findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -38,7 +44,7 @@ public class ChatLog extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChatLog.this, ConversationView.class);
+                Intent intent = new Intent(ChatLog.this, FriendSearch.class);
                 startActivity(intent);
             }
         });
