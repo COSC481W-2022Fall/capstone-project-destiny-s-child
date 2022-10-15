@@ -56,10 +56,10 @@ public class register extends AppCompatActivity {
         //instantiating Firestore Database
         db = FirebaseFirestore.getInstance();
 
-        if(auth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),ChatLog.class));
-            finish();
-        }
+//        if(auth.getCurrentUser() != null){
+//            startActivity(new Intent(getApplicationContext(),ChatLog.class));
+//            finish();
+//        }
 
         //adding event listener to register button
         registerBtn.setOnClickListener(new View.OnClickListener() {
