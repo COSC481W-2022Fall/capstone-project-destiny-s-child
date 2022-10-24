@@ -15,18 +15,18 @@
         android:theme="@style/Theme.LoginPage"
         tools:targetApi="31">
         <activity
-            android:name="com.example.vibe.ChatLog"
+            android:name=".ChatLog"
             android:exported="false"
             android:theme="@style/Theme.Design.NoActionBar"/>
         <activity
-            android:name="com.example.vibe.Settings_View"
+            android:name=".Settings_View"
             android:exported="false" />
         <activity
-            android:name="com.example.vibe.ConversationView"
+            android:name=".ConversationView"
             android:exported="false"
             android:theme="@style/Theme.Design.NoActionBar"/>
         <activity
-            android:name="com.example.vibe.SplashScrren"
+            android:name=".SplashScrren"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,14 +35,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.vibe.register"
+            android:name=".register"
             android:exported="false" />
         <activity
-            android:name="com.example.vibe.FriendSearch"
+            android:name=".FriendSearch"
             android:exported="false"
             android:theme="@style/Theme.Design.NoActionBar"/>
         <activity
-            android:name="com.example.vibe.login"
+            android:name=".login"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -51,7 +51,7 @@
 <!--            </intent-filter>-->
         </activity>
         <activity
-            android:name="com.example.vibe.MainActivity"
+            android:name=".MainActivity"
             android:exported="false">
         </activity>
     </application>

@@ -1,4 +1,4 @@
-package com.example.vibe;
+package com.emich.vibe;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
