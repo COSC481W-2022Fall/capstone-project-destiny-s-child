@@ -44,11 +44,11 @@ public class login extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // if user is already logged in
-//        if(auth.getCurrentUser() != null){
-//            startActivity(new Intent(getApplicationContext(),ChatLog.class));
-//            finish();
-//        }
+        //if user is already logged in, direct user to chatLog view
+        if(auth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(),ChatLog.class));
+            finish();
+        }
 
         // Begin attempt to login by getting email and password
         loginBtn = (Button) findViewById(R.id.loginBtn);
