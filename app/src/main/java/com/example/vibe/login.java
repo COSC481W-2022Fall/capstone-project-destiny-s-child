@@ -1,10 +1,14 @@
 package com.example.vibe;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -27,7 +31,7 @@ public class login extends AppCompatActivity {
     // widget fields
     EditText emailET, passET;
     Button loginBtn;
-    TextView newUserRedirectText;
+    TextView newUserRedirectText, forgotPassword;
     ProgressBar progressBar;
 
     @Override
@@ -50,6 +54,36 @@ public class login extends AppCompatActivity {
             finish();
         }
 
+        //forgot password, firebase email
+        //getting email address
+        forgotPassword = findViewById(R.id.forgotPassword);
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //basically same as line 83. can we create local variable??
+                String email = emailET.getText().toString();
+
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplication(), "Enter your registered email id", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                auth.sendPasswordResetEmail(email)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(login.this, "We sent an email with instructions on how to reset your password.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(login.this, "Check spam if not seeing email.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(login.this, "Failed to send email. Try again.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+
+
         // Begin attempt to login by getting email and password
         loginBtn = (Button) findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +103,7 @@ public class login extends AppCompatActivity {
         });
 
         // Redirecting to registration on pressing of the "New Account" text
-        newUserRedirectText = (TextView)findViewById(R.id.createtext);
+        newUserRedirectText = (TextView)findViewById(R.id.newAccount);
         newUserRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
