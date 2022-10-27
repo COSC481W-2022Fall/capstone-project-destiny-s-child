@@ -47,6 +47,7 @@
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
+        android:minHeight="48dp"
         android:padding="10dp"
         android:textColor="#FFF"
         android:textColorHint="#D8D4D4"
@@ -55,8 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.19"
-        />
+        app:layout_constraintVertical_bias="0.19" />
 
 
     <EditText
@@ -64,19 +64,19 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
+        android:minHeight="48dp"
         android:padding="10dp"
         android:textColor="#FFF"
         android:textColorHint="#D8D4D4"
         android:textSize="20sp"
-        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
 
     <Button
@@ -96,7 +96,7 @@
         />
 
     <TextView
-        android:id="@+id/createtext"
+        android:id="@+id/newAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
@@ -118,9 +118,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createtext"
+        app:layout_constraintTop_toBottomOf="@id/newAccount"
         app:layout_constraintVertical_bias="0.39"
         />
+
+    <TextView
+        android:id="@+id/forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgot password?"
+        android:textColor="#FFBF00"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newAccount" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
