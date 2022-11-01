@@ -26,8 +26,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,7 @@ public class register extends AppCompatActivity {
     FirebaseFirestore db;
     DocumentReference documentReference;
     String userID;
+    ArrayList<String> usernames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,21 @@ public class register extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),ChatLog.class));
             finish();
         }
+        db.collection("users")
+                .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for(QueryDocumentSnapshot document : task.getResult()){
+                                        usernames.add(document.getId());
+                                    }
+                                }
+                                else{
+                                    Log.d("", task.getException().toString());
+                                }
+                            }
+                        });
 
         // Will redirect to chat log on success
         // adding event listener to register button
@@ -76,7 +94,7 @@ public class register extends AppCompatActivity {
                 String email_text = emailET.getText().toString().trim();
                 String username_text = userET.getText().toString().trim();
                 String password_text = passET.getText().toString().trim();
-
+                userID = username_text;
                 // return if values missing
                 if(missingValueError(email_text, username_text, password_text)) {
                     Toast.makeText(register.this, "please fill all text fields" ,Toast.LENGTH_SHORT).show();
@@ -141,22 +159,24 @@ public class register extends AppCompatActivity {
                             // TODO: handle email already existing
 
                             //creates a user ID for an account that is to be authorized
-                            FirebaseUser firebaseUser = auth.getCurrentUser();
-                            userID = firebaseUser.getUid();
+                            //This block of code verifies username
+                            if(usernames.contains(userID)){
+                                Toast.makeText(register.this, "Username is already in use", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                //in the users collection with the specific user ID, map the corresponding values and put them into the firestore database
+                                documentReference = db.collection("users").document(userID);
+                                Map<String, Object> user = new HashMap<>();
+                                user.put("email", email);
+                                user.put("username", username);
+                                user.put("password", password);
 
-                            //in the users collection with the specific user ID, map the corresponding values and put them into the firestore database
-                            documentReference = db.collection("users").document(userID);
-                            Map<String,Object> user = new HashMap<>();
-                            user.put("email",email);
-                            user.put("username",username);
-                            user.put("password",password);
-
-                            //adds user input into Firestore database
-                            documentReference.set(user);
-                            //if successful, directs you to the login page
-                            Toast.makeText(register.this, "Registration Success!" ,Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),ChatLog.class));
-
+                                //adds user input into Firestore database
+                                documentReference.set(user);
+                                //if successful, directs you to the login page
+                                Toast.makeText(register.this, "Registration Success!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), ChatLog.class));
+                            }
                         }else{
                             //Toast.makeText(register.this, "Email is already in use, please register using a different email address." ,Toast.LENGTH_LONG).show();
                             Toast.makeText(register.this, "Invalid email, please register using a different email address." ,Toast.LENGTH_LONG).show();
