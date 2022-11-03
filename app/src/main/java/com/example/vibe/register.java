@@ -105,8 +105,6 @@ public class register extends AppCompatActivity {
                 RegisterNow(username_text, email_text, password_text);
             }
 
-
-
             // set error message for fields with missing values
             private boolean missingValueError(String email, String username, String password) {
                 boolean valuesMissing = false;
