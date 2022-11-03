@@ -41,6 +41,14 @@
             android:name="com.example.vibe.FriendSearch"
             android:exported="false"
             android:theme="@style/Theme.Design.NoActionBar"/>
+
+        <activity
+            android:name="com.example.vibe.ChangePassword"
+            android:exported="false">
+        <meta-data
+            android:name="android.app.lib_name"
+            android:value="" />
+        </activity>
         <activity
             android:name="com.example.vibe.login"
             android:exported="true">

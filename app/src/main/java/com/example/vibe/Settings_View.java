@@ -23,6 +23,9 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -36,7 +39,7 @@ import java.util.UUID;
 public class Settings_View extends AppCompatActivity {
 
     ImageView profilePic;
-    Button logout;
+    Button logout, move;
 
     //create instance of firebase storage in order to access images on database
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -128,6 +131,28 @@ public class Settings_View extends AppCompatActivity {
                 finish();
             }
         });
+
+        move = findViewById(R.id.change_pass);
+        move.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Settings_View.this,ChangePassword.class);
+                startActivity(intent);
+            }
+        });
     }
 
+    //This method is what makes the back button work
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
