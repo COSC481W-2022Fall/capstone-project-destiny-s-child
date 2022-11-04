@@ -38,7 +38,7 @@ public class register extends AppCompatActivity {
     //widgets
     EditText userET, passET, emailET;
     Button registerBtn;
-    TextView logIn;
+    TextView accountAlreadyExists;
     //access Firebase authentication
     FirebaseAuth auth;
     // Access a Cloud Firestore instance from your Activity
@@ -57,18 +57,13 @@ public class register extends AppCompatActivity {
         passET = findViewById(R.id.password);
         emailET = findViewById(R.id.email);
         registerBtn = findViewById(R.id.registerBtn);
-        logIn = (TextView)findViewById(R.id.createtext);
+        accountAlreadyExists = (TextView)findViewById(R.id.createtext);
 
         //instantiating Firebase authentication
         auth = FirebaseAuth.getInstance();
         //instantiating Firestore Database
         db = FirebaseFirestore.getInstance();
 
-        //if user is already logged in, direct user to chatLog view
-        if(auth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),ChatLog.class));
-            finish();
-        }
         db.collection("users")
                 .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -90,7 +85,6 @@ public class register extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String email_text = emailET.getText().toString().trim();
                 String username_text = userET.getText().toString().trim();
                 String password_text = passET.getText().toString().trim();
@@ -133,7 +127,7 @@ public class register extends AppCompatActivity {
 
         // Will redirect to Login
         // Redirecting to login on pressing of the "Already have an account" text
-        logIn.setOnClickListener(new View.OnClickListener() {
+        accountAlreadyExists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(),login.class));
