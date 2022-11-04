@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/searchProPic"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginBottom="62dp"
@@ -23,7 +23,7 @@
         android:id="@+id/resultUser"
         android:layout_width="113dp"
         android:layout_height="47dp"
-        android:text="aaa"
+        android:text="Error"
         android:textAlignment="center"
         android:textColor="@color/purple_200"
         android:textSize="34sp"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/addButton"
+        android:id="@+id/addAddButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -46,7 +46,7 @@
         app:layout_constraintVertical_bias="0.048" />
 
     <Button
-        android:id="@+id/cancelButton"
+        android:id="@+id/addCancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -54,7 +54,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toEndOf="@+id/addButton"
+        app:layout_constraintStart_toEndOf="@+id/addAddButton"
         app:layout_constraintTop_toBottomOf="@+id/resultUser"
         app:layout_constraintVertical_bias="0.048" />
 

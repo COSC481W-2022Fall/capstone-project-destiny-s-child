@@ -8,13 +8,19 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class ConversationView extends AppCompatActivity {
+    // TODO: replace with user object
+    String userId;
+    TextView username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation_view);
+
+        username = findViewById(R.id.convoUsername);
 
         // toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -29,6 +35,10 @@ public class ConversationView extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         }
+
+        Intent intent = getIntent();
+        userId = intent.getStringExtra("userId");
+        username.setText(userId);
     }
 
     @Override

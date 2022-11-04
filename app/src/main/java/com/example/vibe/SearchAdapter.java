@@ -1,12 +1,14 @@
 package com.example.vibe;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -17,12 +19,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.StorageReference;
 
 /**
- * Search utility class -- couldn't be static -- used to create a search popup dialog that
+ * Search adapter class used to create a search popup dialog that
+ * takes search string, accesses database, creates another popup dialog with user info
  */
-public class SearchUtil extends AppCompatActivity {
+public class SearchAdapter extends AppCompatActivity {
     FirebaseFirestore db;
+    StorageReference sr;
     QueryDocumentSnapshot userDocument;
     Context context;
     View searchDialog, addDialog;
@@ -30,9 +35,9 @@ public class SearchUtil extends AppCompatActivity {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private EditText searchField;
-    private Button search, cancelSearch, cancelAdd, add;
+    private Button search, cancelSearch, add, cancelAdd;
 
-    public SearchUtil(Context context, LayoutInflater layoutInflater) {
+    public SearchAdapter(Context context, LayoutInflater layoutInflater) {
         db = FirebaseFirestore.getInstance();
         searchDialog = layoutInflater.inflate(R.layout.popup, null);
         addDialog = layoutInflater.inflate(R.layout.popup_add, null);
@@ -56,8 +61,9 @@ public class SearchUtil extends AppCompatActivity {
         dialogBuilder = new AlertDialog.Builder(context);
         searchField = searchDialog.findViewById(R.id.userSearch);
 
-        search = searchDialog.findViewById(R.id.addButton);
-        cancelSearch = searchDialog.findViewById(R.id.cancelButton);
+        // dialog buttons
+        search = searchDialog.findViewById(R.id.searchAddButton);
+        cancelSearch = searchDialog.findViewById(R.id.searchCancelButton);
 
         dialogBuilder.setView(searchDialog);
         dialog = dialogBuilder.create();
@@ -85,14 +91,19 @@ public class SearchUtil extends AppCompatActivity {
 
     // develop user dialog
     private void createAddDialog() {
-        dialogBuilder.setView(R.layout.popup_add);
+        dialogBuilder.setView(addDialog);
         dialog = dialogBuilder.create();
 
+        // dialog user info TODO: user profile pic
         TextView username = addDialog.findViewById(R.id.resultUser);
         username.setText(userDocument.getId());
 
-        add = addDialog.findViewById(R.id.addButton);
-        cancelAdd = addDialog.findViewById(R.id.cancelButton);
+//        String imageID = userDocument.get("image").toString();
+//        sr = FirebaseStorage.getInstance().getReference("images/" + imageID + ".jpg");
+
+        // dialog buttons
+        add = addDialog.findViewById(R.id.addAddButton);
+        cancelAdd = addDialog.findViewById(R.id.addCancelButton);
 
         dialog.show();
     }
@@ -102,7 +113,10 @@ public class SearchUtil extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO open conversation
+                dialog.dismiss();
+                Intent intent = new Intent(context, ConversationView.class);
+                intent.putExtra("userId", userDocument.getId());
+                context.startActivity(intent);
             }
         });
 
@@ -117,25 +131,34 @@ public class SearchUtil extends AppCompatActivity {
     // search database for user
     private void search(String userSearch) {
         db.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document : task.getResult()){
-                                if (userSearch.equals(document.getId())) {
-                                    System.out.println("---KINDA FOUND---");
-                                    userDocument = document;
-                                    dialog.dismiss();
-                                    beginShow();
-                                    break;
-                                }
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful()){
+                        for(QueryDocumentSnapshot document : task.getResult()){
+                            if (userSearch.equals(document.getId())) {
+                                userDocument = document;
+                                dialog.dismiss();
+                                beginShow();
+                                break;
                             }
                         }
-                        else{
-                            Log.d("", task.getException().toString());
+                        if (userDocument == null) {
+                            handleUserNotFound();
                         }
                     }
-                });
+                    else{
+                        dialog.dismiss();
+                        Log.d("", task.getException().toString());
+                    }
+                }
+            });
+    }
+
+    // user not found toast
+    private void handleUserNotFound() {
+        dialog.dismiss();
+        Toast.makeText(context, "User not found" ,Toast.LENGTH_SHORT).show();
     }
 }

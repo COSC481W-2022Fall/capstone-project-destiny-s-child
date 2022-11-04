@@ -10,9 +10,6 @@ import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ChatLog extends AppCompatActivity {
     FloatingActionButton addButton;
     ImageView settingsButton;
@@ -40,11 +37,11 @@ public class ChatLog extends AppCompatActivity {
         });
 
         // add button with intent
-        addButton = (FloatingActionButton) findViewById(R.id.addButton);
+        addButton = (FloatingActionButton) findViewById(R.id.searchAddButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SearchUtil search = new SearchUtil(ChatLog.this, getLayoutInflater());
+                SearchAdapter search = new SearchAdapter(ChatLog.this, getLayoutInflater());
                 search.beginSearch();
             }
         });
