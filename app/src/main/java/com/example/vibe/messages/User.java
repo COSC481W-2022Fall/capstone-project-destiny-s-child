@@ -1,10 +1,10 @@
 package com.example.vibe.messages;
 
-public class MessagesList {
+public class User {
 
     private String name, image;
 
-    public MessagesList(String name, String image) {
+    public User(String name, String image) {
         this.name = name;
         this.image = image;
     }

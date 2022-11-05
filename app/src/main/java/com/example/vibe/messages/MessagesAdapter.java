@@ -16,10 +16,10 @@ import java.util.List;
 
 public class MessagesAdapter  extends RecyclerView.Adapter<MessagesAdapter.MyViewHolder> {
 
-    private final List<MessagesList> messagesList;
+    private final List<User> messagesList;
     private final Context context;
 
-    public MessagesAdapter(List<MessagesList> messagesList, Context context) {
+    public MessagesAdapter(List<User> messagesList, Context context) {
         this.messagesList = messagesList;
         this.context = context;
     }
