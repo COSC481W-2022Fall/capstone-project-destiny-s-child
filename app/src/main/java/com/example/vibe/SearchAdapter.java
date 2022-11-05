@@ -1,12 +1,16 @@
 package com.example.vibe;
 
+import static android.widget.TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM;
+
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,11 +18,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 /**
@@ -27,7 +33,7 @@ import com.google.firebase.storage.StorageReference;
  */
 public class SearchAdapter extends AppCompatActivity {
     FirebaseFirestore db;
-    StorageReference sr;
+    StorageReference sr = FirebaseStorage.getInstance().getReference();
     QueryDocumentSnapshot userDocument;
     Context context;
     View searchDialog, addDialog;
@@ -96,10 +102,24 @@ public class SearchAdapter extends AppCompatActivity {
 
         // dialog user info TODO: user profile pic
         TextView username = addDialog.findViewById(R.id.resultUser);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            username.setAutoSizeTextTypeWithDefaults(AUTO_SIZE_TEXT_TYPE_UNIFORM);
+        }
         username.setText(userDocument.getId());
+        String imageID = null;
+        try {
+            imageID = userDocument.get("image").toString();
+        }catch(NullPointerException npe){
+            System.out.println("ImageId is null, no image was uploaded");
+        }
+        System.out.println("this is the image url: " + imageID);
+        ImageView profilePicture = addDialog.findViewById(R.id.searchProPic);
+        profilePicture.getBackground().setAlpha(255);
+        if(imageID != null) {
+            profilePicture.getBackground().setAlpha(0);
+            Glide.with(addDialog).load(imageID).into(profilePicture);
+        }
 
-//        String imageID = userDocument.get("image").toString();
-//        sr = FirebaseStorage.getInstance().getReference("images/" + imageID + ".jpg");
 
         // dialog buttons
         add = addDialog.findViewById(R.id.addAddButton);
