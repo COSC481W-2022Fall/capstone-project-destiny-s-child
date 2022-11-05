@@ -2,6 +2,8 @@ package com.example.vibe;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.media.Image;
@@ -16,6 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class ChatLog extends AppCompatActivity {
     FloatingActionButton addButton;
     ImageView settingsButton;
+    RecyclerView messagesRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,13 @@ public class ChatLog extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //RecyclerView
+        messagesRecyclerView = findViewById(R.id.messagesRecyclerView);
+
+        //copying from video
+        messagesRecyclerView.setHasFixedSize(true);
+        messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // add button with intent
         addButton = (FloatingActionButton) findViewById(R.id.addButton);
