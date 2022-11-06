@@ -18,7 +18,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginLeft="5dp"
             android:text="hello this is a text!"
-            android:id="@+id/show_message"
+            android:id="@+id/textViewMessage"
             android:textSize="18sp"
             android:padding="8dp"
             android:background="@drawable/background_right"/>
