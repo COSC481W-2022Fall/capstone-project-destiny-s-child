@@ -99,7 +99,7 @@ public class ConversationView extends AppCompatActivity {
             });
 
         } else {
-            Toast.makeText(ConversationView.this, "failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ConversationView.this, "cannot send empty messages", Toast.LENGTH_SHORT).show();
         }
 
     }
