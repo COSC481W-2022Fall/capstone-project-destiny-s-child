@@ -81,7 +81,7 @@ public class ConversationView extends AppCompatActivity {
 
     private void createMessage() {
         FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String newID = userId + CurrentUser.getUid();
+        String newID = CurrentUser.getUid() + userId;
         String textMessage = editMessage.getText().toString();
         if(!textMessage.equals("")){
             Message message = new Message();
