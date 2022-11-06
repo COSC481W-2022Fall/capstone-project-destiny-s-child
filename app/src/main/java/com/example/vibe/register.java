@@ -163,6 +163,9 @@ public class register extends AppCompatActivity {
                                 user.put("username", username);
                                 user.put("password", password);
 
+                                //getting the Authentication Uid to store with that user's info
+                                user.put("Uid", auth.getUid());
+
                                 //adds user input into Firestore database
                                 documentReference.set(user);
                                 //if successful, directs you to the login page

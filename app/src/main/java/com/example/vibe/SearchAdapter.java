@@ -134,6 +134,10 @@ public class SearchAdapter extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                //create a chats collection in the database to store chats
+
+
+
                 Intent intent = new Intent(context, ConversationView.class);
                 intent.putExtra("userId", userDocument.getId());
                 context.startActivity(intent);
