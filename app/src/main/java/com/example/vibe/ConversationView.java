@@ -1,6 +1,7 @@
 package com.example.vibe;
 
 import android.content.Intent;
+import android.content.ReceiverCallNotAllowedException;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,15 +10,28 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.auth.User;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ConversationView extends AppCompatActivity {
@@ -28,11 +42,12 @@ public class ConversationView extends AppCompatActivity {
     EditText editMessage;
 
     MessagesProvider mMessageProvider;
-
+    FirebaseUser CurrentUser;
     FirebaseFirestore db;
     DocumentReference documentReference;
-    //FirebaseAuth CurrentUser;
-
+    MessageAdapter messageAdapter;
+    List<Message> mList;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +57,11 @@ public class ConversationView extends AppCompatActivity {
         username = findViewById(R.id.convoUsername);
         send = findViewById(R.id.send);
         editMessage = findViewById(R.id.edit_message);
+        recyclerView = findViewById(R.id.recycler);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         //instantiating Firestore Database
         db = FirebaseFirestore.getInstance();
@@ -59,7 +79,7 @@ public class ConversationView extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -76,27 +96,31 @@ public class ConversationView extends AppCompatActivity {
             }
         });
 
+        CollectionReference collectionReference = db.collection("messages");
 
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                displayMessage(CurrentUser.getUid(), userId);
+            }
+        });
     }
 
     private void createMessage() {
-        FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+        CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         String newID = CurrentUser.getUid() + userId;
         String textMessage = editMessage.getText().toString();
-        if(!textMessage.equals("")){
-            Message message = new Message();
-            message.setIdChat(newID);
-            message.setIdSender(CurrentUser.getUid());
-            message.setIdReceiver(userId);
-            message.setMessage(textMessage);
-
-            mMessageProvider.create(message).addOnSuccessListener(new OnSuccessListener<Void>() {
+        if (!textMessage.equals("")) {
+            Message message = new Message(CurrentUser.getUid(), userId, newID, textMessage);
+            db.collection("messages").add(message).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
-                public void onSuccess(Void aVoid) {
+                public void onSuccess(DocumentReference documentReference) {
+                    Toast.makeText(ConversationView.this, "Message Sent", Toast.LENGTH_SHORT).show();
                     editMessage.setText("");
-                    Toast.makeText(ConversationView.this, "message sent", Toast.LENGTH_SHORT).show();
                 }
             });
+
+
 
         } else {
             Toast.makeText(ConversationView.this, "cannot send empty messages", Toast.LENGTH_SHORT).show();
@@ -115,5 +139,26 @@ public class ConversationView extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void displayMessage(String id, String userId) {
+        mList = new ArrayList<>();
+        CollectionReference collectionReference = db.collection("messages");
+        collectionReference
+                .whereEqualTo("idSender", id)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        mList.clear();
+                        for(QueryDocumentSnapshot queryDocumentSnapshot : value){
+                            Message message = queryDocumentSnapshot.toObject(Message.class);
+                            if(message.getIdReceiver().equals(userId)){
+                                mList.add(message);
+                            }
+                            MessageAdapter messageAdapter = new MessageAdapter(mList, ConversationView.this);
+                            recyclerView.setAdapter(messageAdapter);
+
+                        }
+                    }
+                });
+    }
 }
 

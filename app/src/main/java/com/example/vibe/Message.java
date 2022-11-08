@@ -11,8 +11,7 @@ public class Message {
     public Message() {
     }
 
-    public Message(String id, String idSender, String idReceiver, String idChat, String message) {
-        this.id = id;
+    public Message(String idSender, String idReceiver, String idChat, String message) {
         this.idSender = idSender;
         this.idReceiver = idReceiver;
         this.idChat = idChat;
