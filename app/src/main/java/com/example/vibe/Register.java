@@ -14,27 +14,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class register extends AppCompatActivity {
+public class Register extends AppCompatActivity {
     //widgets
     EditText userET, passET, emailET;
     Button registerBtn;
@@ -97,7 +91,7 @@ public class register extends AppCompatActivity {
                 userID = username_text;
                 // return if values missing
                 if(missingValueError(email_text, username_text, password_text)) {
-                    Toast.makeText(register.this, "please fill all text fields" ,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, "please fill all text fields" ,Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -138,7 +132,7 @@ public class register extends AppCompatActivity {
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),login.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
             }
         });
     }
@@ -161,7 +155,7 @@ public class register extends AppCompatActivity {
                             //creates a user ID for an account that is to be authorized
                             //This block of code verifies username
                             if(usernames.contains(userID)){
-                                Toast.makeText(register.this, "Username is already in use", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Register.this, "Username is already in use", Toast.LENGTH_SHORT).show();
                             }
                             else {
                                 //in the users collection with the specific user ID, map the corresponding values and put them into the firestore database
@@ -174,12 +168,12 @@ public class register extends AppCompatActivity {
                                 //adds user input into Firestore database
                                 documentReference.set(user);
                                 //if successful, directs you to the login page
-                                Toast.makeText(register.this, "Registration Success!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Register.this, "Registration Success!", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), ChatLog.class));
                             }
                         }else{
                             //Toast.makeText(register.this, "Email is already in use, please register using a different email address." ,Toast.LENGTH_LONG).show();
-                            Toast.makeText(register.this, "Invalid email, please register using a different email address." ,Toast.LENGTH_LONG).show();
+                            Toast.makeText(Register.this, "Invalid email, please register using a different email address." ,Toast.LENGTH_LONG).show();
                         }
                     }
                 });

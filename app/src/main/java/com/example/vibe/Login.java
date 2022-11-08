@@ -1,14 +1,11 @@
 package com.example.vibe;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -22,7 +19,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class login extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     // firebase fields
     FirebaseFirestore db;
@@ -73,10 +70,10 @@ public class login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(login.this, "We sent an email with instructions on how to reset your password.", Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(login.this, "Check spam if not seeing email.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Login.this, "We sent an email with instructions on how to reset your password.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Login.this, "Check spam if not seeing email.", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(login.this, "Failed to send email. Try again.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Login.this, "Failed to send email. Try again.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -95,7 +92,7 @@ public class login extends AppCompatActivity {
 
                 // displays toast if value missing -- attempts login
                 if(emailText.isEmpty() || passwordText.isEmpty()) {
-                    Toast.makeText(login.this, "please fill all text fields" ,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "please fill all text fields" ,Toast.LENGTH_SHORT).show();
                 } else {
                     attemptLogin(emailText, passwordText);
                 }
@@ -107,7 +104,7 @@ public class login extends AppCompatActivity {
         newUserRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),register.class));
+                startActivity(new Intent(getApplicationContext(), Register.class));
             }
         });
     }
@@ -126,7 +123,7 @@ public class login extends AppCompatActivity {
                         if(task.isSuccessful()) {
                             startActivity(new Intent(getApplicationContext(),ChatLog.class));
                         } else {
-                            Toast.makeText(login.this, "Incorrect email or password" ,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, "Incorrect email or password" ,Toast.LENGTH_SHORT).show();
                             //TODO: throw exception
                         }
                     }
