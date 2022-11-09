@@ -8,13 +8,13 @@ import android.os.Handler;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-public class SplashScrren extends AppCompatActivity {
+public class SplashScreen extends AppCompatActivity {
 
     ImageView logo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_scrren);
+        setContentView(R.layout.activity_splash_screen);
         getSupportActionBar().hide();
         logo = (ImageView) findViewById(R.id.image);
         //logo.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in_animation));
@@ -24,7 +24,7 @@ public class SplashScrren extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashScrren.this, login.class));
+                startActivity(new Intent(SplashScreen.this, Login.class));
                 finish();
             }
         }, 2000);
