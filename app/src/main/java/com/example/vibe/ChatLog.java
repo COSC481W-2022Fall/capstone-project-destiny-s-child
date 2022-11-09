@@ -2,13 +2,12 @@ package com.example.vibe;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -16,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class ChatLog extends AppCompatActivity {
     FloatingActionButton addButton;
     ImageView settingsButton;
+    RecyclerView messagesRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +39,21 @@ public class ChatLog extends AppCompatActivity {
             }
         });
 
+        //RecyclerView
+        messagesRecyclerView = findViewById(R.id.messagesRecyclerView);
+
+        //copying from video
+        messagesRecyclerView.setHasFixedSize(true);
+        messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         // add button with intent
-        addButton = (FloatingActionButton) findViewById(R.id.addButton);
+        addButton = (FloatingActionButton) findViewById(R.id.searchAddButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChatLog.this, FriendSearch.class);
-                startActivity(intent);
+                SearchAdapter search = new SearchAdapter(ChatLog.this, getLayoutInflater());
+                search.beginSearch();
             }
         });
-
     }
 }

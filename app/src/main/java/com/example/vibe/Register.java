@@ -32,7 +32,7 @@ public class Register extends AppCompatActivity {
     //widgets
     EditText userET, passET, emailET;
     Button registerBtn;
-    TextView logIn;
+    TextView accountAlreadyExists;
     //access Firebase authentication
     FirebaseAuth auth;
     // Access a Cloud Firestore instance from your Activity
@@ -51,18 +51,13 @@ public class Register extends AppCompatActivity {
         passET = findViewById(R.id.password);
         emailET = findViewById(R.id.email);
         registerBtn = findViewById(R.id.registerBtn);
-        logIn = (TextView)findViewById(R.id.createtext);
+        accountAlreadyExists = (TextView)findViewById(R.id.createtext);
 
         //instantiating Firebase authentication
         auth = FirebaseAuth.getInstance();
         //instantiating Firestore Database
         db = FirebaseFirestore.getInstance();
 
-        //if user is already logged in, direct user to chatLog view
-        if(auth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),ChatLog.class));
-            finish();
-        }
         db.collection("users")
                 .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -84,7 +79,6 @@ public class Register extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String email_text = emailET.getText().toString().trim();
                 String username_text = userET.getText().toString().trim();
                 String password_text = passET.getText().toString().trim();
@@ -98,8 +92,6 @@ public class Register extends AppCompatActivity {
                 //if all fields are filled, call RegisterNow method
                 RegisterNow(username_text, email_text, password_text);
             }
-
-
 
             // set error message for fields with missing values
             private boolean missingValueError(String email, String username, String password) {
@@ -129,7 +121,7 @@ public class Register extends AppCompatActivity {
 
         // Will redirect to Login
         // Redirecting to login on pressing of the "Already have an account" text
-        logIn.setOnClickListener(new View.OnClickListener() {
+        accountAlreadyExists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), Login.class));
@@ -164,6 +156,9 @@ public class Register extends AppCompatActivity {
                                 user.put("email", email);
                                 user.put("username", username);
                                 user.put("password", password);
+
+                                //getting the Authentication Uid to store with that user's info
+                                user.put("Uid", auth.getUid());
 
                                 //adds user input into Firestore database
                                 documentReference.set(user);
