@@ -24,10 +24,11 @@ public class MessagesAdapter  extends RecyclerView.Adapter<MessagesAdapter.MyVie
         this.context = context;
     }
 
+    //Adapter class to hold the name of the friend in the chat log, upon clicking will display the conversations view
     @NonNull
     @Override
     public MessagesAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_messages_adapter, null));
+        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_chat_adapter, null));
     }
 
     @Override
@@ -51,7 +52,7 @@ public class MessagesAdapter  extends RecyclerView.Adapter<MessagesAdapter.MyVie
             super(itemView);
 
             profilePic = itemView.findViewById(R.id.profilePic);
-            name = itemView.findViewById(R.id.name);
+            name = itemView.findViewById(R.id.chatName1);
 
         }
     }
