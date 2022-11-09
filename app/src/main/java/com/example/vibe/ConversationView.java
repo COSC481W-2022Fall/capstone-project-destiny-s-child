@@ -160,5 +160,59 @@ public class ConversationView extends AppCompatActivity {
                     }
                 });
     }
+
+    protected void onResume(){
+        super.onResume();
+        username = findViewById(R.id.convoUsername);
+        send = findViewById(R.id.send);
+        editMessage = findViewById(R.id.edit_message);
+        recyclerView = findViewById(R.id.recycler);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        //instantiating Firestore Database
+        db = FirebaseFirestore.getInstance();
+
+        mMessageProvider = new MessagesProvider();
+
+        //getting the current user
+        FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        // toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //do not show title of app
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        }
+
+        Intent intent = getIntent();
+        userId = intent.getStringExtra("userId");
+        username.setText(userId);
+
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createMessage();
+            }
+        });
+
+        CollectionReference collectionReference = db.collection("messages");
+
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                displayMessage(CurrentUser.getUid(), userId);
+            }
+        });
+    }
 }
 
