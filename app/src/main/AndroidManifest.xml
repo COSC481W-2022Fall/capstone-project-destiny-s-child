@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -15,25 +15,18 @@
         android:theme="@style/Theme.LoginPage"
         tools:targetApi="31">
         <activity
-            android:name=".ChangePassword"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ChatLog"
+            android:name="com.example.vibe.ChatLog"
             android:exported="false"
-            android:theme="@style/Theme.Design.NoActionBar" />
+            android:theme="@style/Theme.Design.NoActionBar"/>
         <activity
-            android:name=".Settings_View"
+            android:name="com.example.vibe.Settings_View"
             android:exported="false" />
         <activity
-            android:name=".ConversationView"
+            android:name="com.example.vibe.ConversationView"
             android:exported="false"
-            android:theme="@style/Theme.Design.NoActionBar" />
+            android:theme="@style/Theme.Design.NoActionBar"/>
         <activity
-            android:name=".SplashScrren"
+            android:name="com.example.vibe.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,26 +35,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".register"
+            android:name="com.example.vibe.Register"
             android:exported="false" />
         <activity
-            android:name=".FriendSearch"
+            android:name="com.example.vibe.FriendSearch"
             android:exported="false"
-            android:theme="@style/Theme.Design.NoActionBar" />
+            android:theme="@style/Theme.Design.NoActionBar"/>
+
         <activity
-            android:name=".login"
-            android:exported="true">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+            android:name="com.example.vibe.ChangePassword"
+            android:exported="false">
+        <meta-data
+            android:name="android.app.lib_name"
+            android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:name="com.example.vibe.Login"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name="com.example.vibe.MainActivity"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>
