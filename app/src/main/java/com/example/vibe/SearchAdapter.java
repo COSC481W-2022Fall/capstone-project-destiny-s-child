@@ -126,6 +126,7 @@ public class SearchAdapter extends AppCompatActivity {
         profilePicture.getBackground().setAlpha(255);
         if(imageID != null) {
             profilePicture.getBackground().setAlpha(0);
+            //GLide is for loading the image with the URL into the imageView
             Glide.with(addDialog).load(imageID).into(profilePicture);
         }
 
