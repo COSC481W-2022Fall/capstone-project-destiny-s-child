@@ -24,6 +24,7 @@ public class MessagesAdapter  extends RecyclerView.Adapter<MessagesAdapter.MyVie
         this.context = context;
     }
 
+    //Adapter class to hold the name of the friend in the chat log, upon clicking will display the conversations view
     @NonNull
     @Override
     public MessagesAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
