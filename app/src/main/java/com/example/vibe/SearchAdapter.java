@@ -21,11 +21,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Search adapter class used to create a search popup dialog that
@@ -37,6 +44,8 @@ public class SearchAdapter extends AppCompatActivity {
     QueryDocumentSnapshot userDocument;
     Context context;
     View searchDialog, addDialog;
+
+    DocumentReference documentReference;
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
@@ -134,6 +143,24 @@ public class SearchAdapter extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                //create a chats collection in the database to store chats
+                FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+                String newChatId = CurrentUser.getUid() + userDocument.getId();
+                documentReference = db.collection("chats").document();
+                Map<String, Object> chat = new HashMap<>();
+                //this is the unique ID created for the chat between these 2 users
+                chat.put("id", newChatId);
+                //adding the user ID's into the database as an arrayList
+                ArrayList<String> ids = new ArrayList<>();
+                ids.add(0, CurrentUser.getUid());
+                ids.add(1, userDocument.getId());
+                chat.put("ids", ids);
+
+
+                //adds user input into Firestore database
+                documentReference.set(chat);
+
+
                 Intent intent = new Intent(context, ConversationView.class);
                 intent.putExtra("userId", userDocument.getId());
                 context.startActivity(intent);
