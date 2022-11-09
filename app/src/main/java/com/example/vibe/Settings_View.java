@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class Settings_View extends AppCompatActivity {
 
     ImageView img;
-    Button logout;
+    Button logout, move;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,15 @@ public class Settings_View extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();//signs you out
                 startActivity(new Intent(getApplicationContext(),login.class));
                 finish();
+            }
+        });
+
+        move = findViewById(R.id.change_pass);
+        move.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Settings_View.this,ChangePassword.class);
+                startActivity(intent);
             }
         });
     }
