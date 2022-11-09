@@ -6,11 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -50,14 +47,13 @@ public class ChatLog extends AppCompatActivity {
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // add button with intent
-        addButton = (FloatingActionButton) findViewById(R.id.addButton);
+        addButton = (FloatingActionButton) findViewById(R.id.searchAddButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChatLog.this, FriendSearch.class);
-                startActivity(intent);
+                SearchAdapter search = new SearchAdapter(ChatLog.this, getLayoutInflater());
+                search.beginSearch();
             }
         });
-
     }
 }
