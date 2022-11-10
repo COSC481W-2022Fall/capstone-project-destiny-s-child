@@ -50,6 +50,7 @@ public class ConversationView extends AppCompatActivity {
     ImageButton send;
     EditText editMessage;
     long millis;
+
     Users reciever;
     List<Users> usersList;
     List<Users> current;
