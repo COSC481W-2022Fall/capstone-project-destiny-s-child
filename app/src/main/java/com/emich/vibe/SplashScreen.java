@@ -1,4 +1,4 @@
-package com.example.vibe;
+package com.emich.vibe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+
+import com.emich.vibe.R;
 
 public class SplashScreen extends AppCompatActivity {
 

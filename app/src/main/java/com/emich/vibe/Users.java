@@ -1,4 +1,4 @@
-package com.example.vibe;
+package com.emich.vibe;
 
 public class Users {
 

@@ -1,6 +1,6 @@
-package com.example.vibe;
+package com.emich.vibe;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import static org.junit.Assert.*;
 

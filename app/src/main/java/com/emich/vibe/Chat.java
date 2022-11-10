@@ -1,4 +1,4 @@
-package com.example.vibe;
+package com.emich.vibe;
 
 import java.util.List;
 

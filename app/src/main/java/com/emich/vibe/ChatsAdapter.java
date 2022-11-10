@@ -1,4 +1,4 @@
-package com.example.vibe;
+package com.emich.vibe;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vibe.messages.User;
-import com.google.firebase.auth.FirebaseUser;
+import com.emich.vibe.R;
 
 import java.util.List;
 

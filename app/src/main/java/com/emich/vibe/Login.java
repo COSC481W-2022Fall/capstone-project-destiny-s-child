@@ -1,4 +1,4 @@
-package com.example.vibe;
+package com.emich.vibe;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.emich.vibe.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

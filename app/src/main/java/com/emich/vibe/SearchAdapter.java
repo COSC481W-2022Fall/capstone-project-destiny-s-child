@@ -1,4 +1,4 @@
-package com.example.vibe;
+package com.emich.vibe;
 
 import static android.widget.TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM;
 
@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.emich.vibe.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
