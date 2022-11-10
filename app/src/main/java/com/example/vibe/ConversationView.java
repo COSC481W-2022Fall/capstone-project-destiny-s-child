@@ -50,6 +50,7 @@ public class ConversationView extends AppCompatActivity {
     ImageButton send;
     EditText editMessage;
     long millis;
+
     Users reciever;
     List<Users> usersList;
     List<Users> current;
@@ -191,7 +192,7 @@ public class ConversationView extends AppCompatActivity {
         mList = new ArrayList<>();
 
         current = new ArrayList<>();
-        usersReference.whereEqualTo("Uid", CurrentUser.getUid()).get()
+        usersReference.whereEqualTo("id", CurrentUser.getUid()).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
