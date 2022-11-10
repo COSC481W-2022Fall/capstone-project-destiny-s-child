@@ -10,13 +10,16 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,22 +28,33 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.lang.*;
 
 public class ConversationView extends AppCompatActivity {
     // TODO: replace with user object
     String userId;
+    public static String myUsername;
     TextView username;
     ImageButton send;
     EditText editMessage;
+    long millis;
 
+    Users reciever;
+    List<Users> usersList;
+    List<Users> current;
+    CollectionReference usersReference;
     MessagesProvider mMessageProvider;
     FirebaseUser CurrentUser;
     FirebaseFirestore db;
@@ -53,6 +67,9 @@ public class ConversationView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation_view);
+        db = FirebaseFirestore.getInstance();
+        usersReference = db.collection("users");
+
 
         username = findViewById(R.id.convoUsername);
         send = findViewById(R.id.send);
@@ -64,12 +81,12 @@ public class ConversationView extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         //instantiating Firestore Database
-        db = FirebaseFirestore.getInstance();
+
 
         mMessageProvider = new MessagesProvider();
 
         //getting the current user
-        FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+        CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -98,10 +115,25 @@ public class ConversationView extends AppCompatActivity {
 
         CollectionReference collectionReference = db.collection("messages");
 
+
+        usersList = new ArrayList<>();
+        usersReference
+                .whereEqualTo("username", userId)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for(QueryDocumentSnapshot document : task.getResult()){
+                    usersList.add(document.toObject(Users.class));
+                }
+                reciever = usersList.get(0);
+            }
+        });
+
+
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                displayMessage(CurrentUser.getUid(), userId);
+                displayMessage(myUsername, userId);
             }
         });
     }
@@ -111,7 +143,8 @@ public class ConversationView extends AppCompatActivity {
         String newID = CurrentUser.getUid() + userId;
         String textMessage = editMessage.getText().toString();
         if (!textMessage.equals("")) {
-            Message message = new Message(CurrentUser.getUid(), userId, newID, textMessage);
+            millis = System.currentTimeMillis();
+            Message message = new Message(myUsername, userId, newID, textMessage, millis);
             db.collection("messages").add(message).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
@@ -139,19 +172,53 @@ public class ConversationView extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void getReciver(String username){
+        List<Users> usersList = new ArrayList<>();
+        db.collection("users")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for(QueryDocumentSnapshot document : task.getResult()){
+                            usersList.add(document.toObject(Users.class));
+                        }
+                    }
+                });
+
+        reciever = usersList.get(0);
+    }
+
+
     public void displayMessage(String id, String userId) {
         mList = new ArrayList<>();
+
+        current = new ArrayList<>();
+        usersReference.whereEqualTo("id", CurrentUser.getUid()).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for(QueryDocumentSnapshot document : task.getResult()){
+                            current.add(document.toObject(Users.class));
+                        }
+                        myUsername = current.get(0).getUsername();
+                    }
+                });
+
         CollectionReference collectionReference = db.collection("messages");
+        //Query query = collectionReference.orderBy("timePosted", Query.Direction.ASCENDING);
         collectionReference
-                .whereEqualTo("idSender", id)
+                .orderBy("timePosted", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         mList.clear();
                         for(QueryDocumentSnapshot queryDocumentSnapshot : value){
                             Message message = queryDocumentSnapshot.toObject(Message.class);
-                            if(message.getIdReceiver().equals(userId)){
-                                mList.add(message);
+                            if(message.getIdReceiver() != null || message.getIdSender() != null) {
+                                if ((message.getIdReceiver().equals(userId) && message.getIdSender().equals(myUsername))
+                                        || (message.getIdReceiver().equals(myUsername) && message.getIdSender().equals(userId))) {
+                                    mList.add(message);
+
+                                }
                             }
                             MessageAdapter messageAdapter = new MessageAdapter(mList, ConversationView.this);
                             recyclerView.setAdapter(messageAdapter);
@@ -160,6 +227,8 @@ public class ConversationView extends AppCompatActivity {
                     }
                 });
     }
+
+
 
     protected void onResume(){
         super.onResume();
