@@ -1,5 +1,8 @@
 package com.example.vibe;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Message {
 
     private String id;
@@ -7,15 +10,25 @@ public class Message {
     private String idReceiver;
     private String idChat;
     private String message;
+    private long timePosted;
 
     public Message() {
     }
 
-    public Message(String idSender, String idReceiver, String idChat, String message) {
+    public Message(String idSender, String idReceiver, String idChat, String message, long timePosted) {
         this.idSender = idSender;
         this.idReceiver = idReceiver;
         this.idChat = idChat;
         this.message = message;
+        this.timePosted = timePosted;
+    }
+
+    public long getTimePosted() {
+        return timePosted;
+    }
+
+    public void setTimePosted(long timePosted) {
+        this.timePosted = (int) timePosted;
     }
 
     public String getId() {
@@ -57,4 +70,6 @@ public class Message {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
 }

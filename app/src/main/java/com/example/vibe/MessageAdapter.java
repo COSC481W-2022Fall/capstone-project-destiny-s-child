@@ -9,11 +9,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,6 +30,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
     FirebaseUser fUser;
+    //String myUsername;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView show;
@@ -67,7 +74,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public int getItemViewType(int position){
         fUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(mChat.get(position).getIdSender().equals(fUser.getUid())){
+        List<Users> usersList = new ArrayList<>();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        if(mChat.get(position).getIdSender().equals(ConversationView.myUsername)){
             return RIGHT;
         }
         else{

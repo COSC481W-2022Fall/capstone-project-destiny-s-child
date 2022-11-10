@@ -19,6 +19,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -152,14 +154,14 @@ public class Register extends AppCompatActivity {
                             else {
                                 //in the users collection with the specific user ID, map the corresponding values and put them into the firestore database
                                 documentReference = db.collection("users").document(userID);
+                                CollectionReference collectionReference = db.collection("users");
                                 Map<String, Object> user = new HashMap<>();
                                 user.put("email", email);
                                 user.put("username", username);
                                 user.put("password", password);
-
                                 //getting the Authentication Uid to store with that user's info
-                                user.put("Uid", auth.getUid());
-
+                                user.put("id", auth.getUid());
+                                Users users = new Users(auth.getUid(), email, username, password);
                                 //adds user input into Firestore database
                                 documentReference.set(user);
                                 //if successful, directs you to the login page
