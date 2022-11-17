@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -30,6 +31,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -45,6 +48,8 @@ public class Settings_View extends AppCompatActivity {
     ImageView profilePic;
     Button logout, move;
     QueryDocumentSnapshot userDocument;
+    TextView username;
+    String usernameFromCollection;
 
     //create instance of firebase storage in order to access images on database
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -63,6 +68,8 @@ public class Settings_View extends AppCompatActivity {
         setContentView(R.layout.activity_settings_view);
 
         System.out.println("storage ref" + storageRef);
+        this.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        this.getSupportActionBar().setDisplayShowHomeEnabled(false);
         this.getSupportActionBar().setHomeButtonEnabled(true);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ColorDrawable color = new ColorDrawable(Color.parseColor("#6D37AE"));
@@ -149,7 +156,20 @@ public class Settings_View extends AppCompatActivity {
             }
         });
 
-
+        username = findViewById(R.id.displayUsername);
+        db.collection("users")
+                        .whereEqualTo("id", user.getUid())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for(DocumentSnapshot document : task.getResult()) {
+                                        username.setText((CharSequence) document.get("username"));
+                                    }
+                                }
+                            }
+                        });
 
         //initializing logout button
         logout = findViewById(R.id.logout);
