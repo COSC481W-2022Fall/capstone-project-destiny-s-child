@@ -83,6 +83,24 @@ public class ConversationView extends AppCompatActivity {
         //instantiating Firestore Database
 
 
+        //start of blocklist feature code-----------------------------------------------------------
+        //Two different ways the blocklist can be implemented:
+
+        //1st : if you want to create a separate collection for the block list
+        CollectionReference colRef = db.collection("BlockList");
+
+        //2nd : if you want to add the blocked names inside of that user’s collection without creating a whole new collection
+        documentReference = db.collection("users").document(); //put username of logged in user in the 'document()”
+        Map<String, Object> block = new HashMap<>();
+        //adding the blacked users into the database as an arrayList
+        ArrayList<String> BlockList = new ArrayList<>();
+        //adding in the person im texting into the database, with index 0
+        BlockList.add(0, userId);
+        //adding to blocklist collection
+        block.put("blocked", BlockList);
+
+        //end of blocklist feature code-------------------------------------------------------------
+
         mMessageProvider = new MessagesProvider();
 
         //getting the current user
