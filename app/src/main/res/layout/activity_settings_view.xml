@@ -52,12 +52,14 @@
         android:id="@+id/displayUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/purple_700"
+        android:layout_marginTop="118dp"
         android:text="username"
+        android:textColor="@color/purple_700"
         android:textSize="32dp"
         app:layout_constraintBottom_toTopOf="@+id/change_pass"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
