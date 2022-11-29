@@ -92,9 +92,9 @@ public class Settings_View extends AppCompatActivity {
                         //storage reference to save photo under uid.jpg in firebase storage
                         StorageReference ref = storageRef.child("images/" + user.getUid() + ".jpg");
 
-//                        //upload photo to storage
-//                        UploadTask uploadTask = ref.putFile(uri);
-//                        uploadTask.pause();
+                        //upload photo to storage
+                        UploadTask uploadTask = ref.putFile(uri);
+                        uploadTask.pause();
 
                         //dialog box to allow user to cancel upload
                         AlertDialog alertDialog = new AlertDialog.Builder(Settings_View.this).create();
@@ -103,7 +103,7 @@ public class Settings_View extends AppCompatActivity {
                         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                       // uploadTask.cancel();
+                                        uploadTask.cancel();
                                         dialog.dismiss();
                                     }
                                 });
@@ -111,13 +111,12 @@ public class Settings_View extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        //uploadTask.resume();
+                                        uploadTask.resume();
                                         dialog.dismiss();
                                     }
                                 });
                                 alertDialog.show();
 
-                        UploadTask uploadTask = ref.putFile(uri);
                         // Register observers to listen for when the download is done or if it fails
                         uploadTask.addOnFailureListener(new OnFailureListener() {
                             @Override
