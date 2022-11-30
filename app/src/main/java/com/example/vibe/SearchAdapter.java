@@ -5,6 +5,7 @@ import static android.widget.TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,7 @@ public class SearchAdapter extends AppCompatActivity {
     QueryDocumentSnapshot userDocument;
     Context context;
     View searchDialog, addDialog;
+    ArrayList<String> doppelChats = new ArrayList<>();
 
     DocumentReference documentReference;
 
@@ -90,7 +92,7 @@ public class SearchAdapter extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userSearch = searchField.getText().toString();
+                String userSearch = searchField.getText().toString().trim();
                 search(userSearch);
 
                 dialog.dismiss();
@@ -147,7 +149,33 @@ public class SearchAdapter extends AppCompatActivity {
                 //create a chats collection in the database to store chats
                 FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
                 String newChatId = CurrentUser.getUid() + userDocument.getId();
-                documentReference = db.collection("chats").document();
+
+
+                db.collection("chats")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                //arraylist to store document ID's of all existing chats in the db
+                                ArrayList<String> existingChats = new ArrayList<>();
+                                if(task.isSuccessful()){
+                                    for(QueryDocumentSnapshot document : task.getResult()){
+                                        String ChatIds = document.getId();
+                                        existingChats.add(ChatIds);
+                                    }
+                                    FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+                                    if(existingChats.contains(CurrentUser.getUid() + userDocument.getId())){
+                                        Toast.makeText(context, "You have an existing chat with this user", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                else{
+                                    Log.d("", task.getException().toString());
+                                }
+                            }
+                        });
+
+                //create a chats collection in the database to store chats
+                documentReference = db.collection("chats").document(newChatId);
                 Map<String, Object> chat = new HashMap<>();
                 //this is the unique ID created for the chat between these 2 users
                 chat.put("id", newChatId);
@@ -157,14 +185,41 @@ public class SearchAdapter extends AppCompatActivity {
                 ids.add(1, userDocument.getId());
                 chat.put("ids", ids);
 
-
                 //adds user input into Firestore database
                 documentReference.set(chat);
-
 
                 Intent intent = new Intent(context, ConversationView.class);
                 intent.putExtra("userId", userDocument.getId());
                 context.startActivity(intent);
+
+                // code to disallow users to enter a chat conversation with themselves
+                db.collection("users")
+                        .whereEqualTo("id", CurrentUser.getUid())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                ArrayList<String> doppel = new ArrayList<>();
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        String dop = document.getId();
+                                        doppel.add(dop);
+                                        if (doppel.contains(userDocument.getId())) {
+                                            //if the if statement is true, dismiss from the search adapter and return to Chat Log
+                                            dialog.dismiss();
+                                            Toast.makeText(context, "Prohibited from messaging yourself", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(context, ChatLog.class);
+                                            context.startActivity(intent);
+                                            FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+                                            String deleteDoppelganger = CurrentUser.getUid() + userDocument.getId();
+                                            //query to delete any chat collection in the database to not display chats with self on the chat log
+                                            db.collection("chats").document(deleteDoppelganger).delete();
+                                        }
+                                    }
+
+                                }
+                            }
+                        });
             }
         });
 
