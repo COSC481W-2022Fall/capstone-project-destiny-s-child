@@ -37,10 +37,6 @@
         <activity
             android:name="com.example.vibe.Register"
             android:exported="false" />
-        <activity
-            android:name="com.example.vibe.FriendSearch"
-            android:exported="false"
-            android:theme="@style/Theme.Design.NoActionBar"/>
 
         <activity
             android:name="com.example.vibe.ChangePassword"
