@@ -63,7 +63,9 @@ public class Message {
         this.idChat = idChat;
     }
 
-    public String getMessage() {return message;}
+    public String getMessage() {
+        return message;
+    }
 
     public void setMessage(String message) {
         this.message = message;

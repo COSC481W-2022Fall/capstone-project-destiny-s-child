@@ -12,17 +12,16 @@
         android:layout_alignParentRight="true">
 
         <TextView
-            android:id="@+id/textViewMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/background_right"
-            android:padding="8dp"
             android:text="hello this is a text!"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:id="@+id/textViewMessage"
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:background="@drawable/background_right"/>
 
 
     </RelativeLayout>
