@@ -71,6 +71,7 @@ public class Settings_View extends AppCompatActivity {
         ColorDrawable color = new ColorDrawable(Color.parseColor("#6D37AE"));
         this.getSupportActionBar().setBackgroundDrawable(color);
 
+
         //get user's current profile picture and display
         db.collection("users")
                 .get()
@@ -108,6 +109,7 @@ public class Settings_View extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         uploadTask.cancel();
                                         dialog.dismiss();
+                                        Toast.makeText(getApplicationContext(), "Image upload canceled", Toast.LENGTH_LONG).show();
                                     }
                                 });
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
@@ -116,27 +118,17 @@ public class Settings_View extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         uploadTask.resume();
                                         dialog.dismiss();
+                                        Toast.makeText(getApplicationContext(), "Image successfully uploaded", Toast.LENGTH_LONG).show();
                                     }
                                 });
                                 alertDialog.show();
 
                         // Register observers to listen for when the download is done or if it fails
-                        uploadTask.addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle unsuccessful uploads
-                                Toast.makeText(getApplicationContext(), "Failed to upload. Please try again.", Toast.LENGTH_LONG).show();
-                            }
-                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 //progressDialog.dismiss();
                                 profilePic.setImageURI(uri);
-                                //new profile change request to update image uri in storage
-                                String uid = user.getUid();
-                                db.collection("users")
-                                        .document(uid)
-                                        .update("image", "images/" + user.getUid() + ".jpg");
                             }
                         });
                     }
@@ -211,7 +203,9 @@ public class Settings_View extends AppCompatActivity {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                profilePic.setImageBitmap(bmp);
+                if (bmp != null) {
+                    profilePic.setImageBitmap(bmp);
+                }
             }
         });
     }

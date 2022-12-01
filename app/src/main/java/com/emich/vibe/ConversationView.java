@@ -2,8 +2,10 @@ package com.emich.vibe;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -32,8 +36,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.lang.*;
+import java.util.Map;
 
 public class ConversationView extends AppCompatActivity {
     // TODO: replace with user object
@@ -45,12 +51,14 @@ public class ConversationView extends AppCompatActivity {
     long millis;
 
     Users reciever;
+    ArrayList<String> blockList = new ArrayList<>();
     List<Users> usersList;
     List<Users> current;
-    CollectionReference usersReference;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference usersReference = db.collection("users");
+    CollectionReference collectionReference = db.collection("messages");
     MessagesProvider mMessageProvider;
-    FirebaseUser CurrentUser;
-    FirebaseFirestore db;
+    FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
     DocumentReference documentReference;
     MessageAdapter messageAdapter;
     List<Message> mList;
@@ -60,8 +68,6 @@ public class ConversationView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation_view);
-        db = FirebaseFirestore.getInstance();
-        usersReference = db.collection("users");
 
 
         username = findViewById(R.id.convoUsername);
@@ -73,13 +79,7 @@ public class ConversationView extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        //instantiating Firestore Database
-
-
         mMessageProvider = new MessagesProvider();
-
-        //getting the current user
-        CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -99,6 +99,43 @@ public class ConversationView extends AppCompatActivity {
         userId = intent.getStringExtra("userId");
         username.setText(userId);
 
+
+        // User Info -- tapping username displays option to block
+        username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View userInfoDialog = getLayoutInflater().inflate(R.layout.popup_user_info, null);
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ConversationView.this);
+                Button block = userInfoDialog.findViewById(R.id.blockButton);
+                Button close = userInfoDialog.findViewById(R.id.userInfoCloseButton);
+                TextView username = userInfoDialog.findViewById(R.id.userInfoName);
+
+                dialogBuilder.setView(userInfoDialog);
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
+                dialog.getWindow().setLayout(900, 600);
+
+                username.setText(userId);
+                block.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(ConversationView.this, "BLOCKED", Toast.LENGTH_SHORT).show();
+                        Map<String, Object> blockedUser = new HashMap<>();
+                        blockedUser.put("name", userId);
+                        db.collection("users").document(Login.user.getUsername()).collection("blocklist").document(userId).set(blockedUser);
+                        dialog.dismiss();
+                        startActivity(new Intent(getApplicationContext(), ChatLog.class));
+                    }
+                });
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,27 +143,41 @@ public class ConversationView extends AppCompatActivity {
             }
         });
 
-        CollectionReference collectionReference = db.collection("messages");
-
-
         usersList = new ArrayList<>();
         usersReference
                 .whereEqualTo("username", userId)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for(QueryDocumentSnapshot document : task.getResult()){
-                    usersList.add(document.toObject(Users.class));
+                if(task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        usersList.add(document.toObject(Users.class));
+                    }
+                    reciever = usersList.get(0);
                 }
-                reciever = usersList.get(0);
             }
         });
 
 
+        // display method only if contact isn't in user's blocklist
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                displayMessage(myUsername, userId);
+                db.collection("users").document(Login.user.getUsername()).collection("blocklist")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        blockList.add(document.get("name").toString());
+                                    }
+                                    if (!blockList.contains(userId)) {
+                                        displayMessage(myUsername, userId);
+                                    }
+                                }
+                            }
+                        });
             }
         });
     }
@@ -160,6 +211,7 @@ public class ConversationView extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             Intent intent = new Intent(ConversationView.this, ChatLog.class);
             startActivity(intent);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -171,8 +223,10 @@ public class ConversationView extends AppCompatActivity {
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for(QueryDocumentSnapshot document : task.getResult()){
-                            usersList.add(document.toObject(Users.class));
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                usersList.add(document.toObject(Users.class));
+                            }
                         }
                     }
                 });
@@ -189,10 +243,12 @@ public class ConversationView extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for(QueryDocumentSnapshot document : task.getResult()){
-                            current.add(document.toObject(Users.class));
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                current.add(document.toObject(Users.class));
+                            }
+                            myUsername = current.get(0).getUsername();
                         }
-                        myUsername = current.get(0).getUsername();
                     }
                 });
 
@@ -203,6 +259,9 @@ public class ConversationView extends AppCompatActivity {
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if(error != null) {
+                            return;
+                        }
                         mList.clear();
                         for(QueryDocumentSnapshot queryDocumentSnapshot : value){
                             Message message = queryDocumentSnapshot.toObject(Message.class);
@@ -269,10 +328,25 @@ public class ConversationView extends AppCompatActivity {
 
         CollectionReference collectionReference = db.collection("messages");
 
+        // display method only if contact isn't in user's blocklist
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                displayMessage(CurrentUser.getUid(), userId);
+                db.collection("users").document(Login.user.getUsername()).collection("blocklist")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        blockList.add(document.get("name").toString());
+                                    }
+                                    if (!blockList.contains(userId)) {
+                                        displayMessage(myUsername, userId);
+                                    }
+                                }
+                            }
+                        });
             }
         });
     }

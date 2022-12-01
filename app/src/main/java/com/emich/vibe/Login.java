@@ -18,13 +18,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class Login extends AppCompatActivity {
 
     // firebase fields
     FirebaseFirestore db;
     FirebaseAuth auth;
+    public static Users user;
 
     // widget fields
     EditText emailET, passET;
@@ -48,8 +51,9 @@ public class Login extends AppCompatActivity {
 
         //if user is already logged in, direct user to chatLog view
         if(auth.getCurrentUser() != null){
+            setUserObject();
             startActivity(new Intent(getApplicationContext(),ChatLog.class));
-            finish();
+//            finish();
         }
 
         //forgot password, firebase email
@@ -122,10 +126,27 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
+                            setUserObject();
                             startActivity(new Intent(getApplicationContext(),ChatLog.class));
                         } else {
                             Toast.makeText(Login.this, "Incorrect email or password" ,Toast.LENGTH_SHORT).show();
                             //TODO: throw exception
+                        }
+                    }
+                });
+    }
+
+    private void setUserObject() {
+        db.collection("users").whereEqualTo("id", auth.getUid())
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.getResult().isEmpty())
+                                return;
+                        if(task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                            user = document.toObject(Users.class);
+                            user.setUid(auth.getUid());
                         }
                     }
                 });

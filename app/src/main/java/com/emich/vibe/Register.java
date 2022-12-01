@@ -108,6 +108,14 @@ public class Register extends AppCompatActivity {
                     userET.setError("Username is required.");
                     valuesMissing = true;
                 }
+                if(username.length() > 20) {
+                    userET.setError("Username is too long. 20 characters maximum.");
+                    valuesMissing = true;
+                }
+                if(username.length() < 4) {
+                    userET.setError("Username is too short. 4 characters minimum.");
+                    valuesMissing = true;
+                }
 
                 if(TextUtils.isEmpty(password)){
                     passET.setError("Password is required.");
@@ -161,11 +169,18 @@ public class Register extends AppCompatActivity {
                                 user.put("password", password);
                                 //getting the Authentication Uid to store with that user's info
                                 user.put("id", auth.getUid());
+
+                                //creating collection to be referenced for blocked users
+                                Map<String, Object> blocklist = new HashMap<>();
+                                blocklist.put("name", "test");
+
                                 Users users = new Users(auth.getUid(), email, username, password);
                                 //adds user input into Firestore database
                                 documentReference.set(user);
+                                documentReference.collection("blocklist").document("test").set(blocklist);
                                 //if successful, directs you to the login page
                                 Toast.makeText(Register.this, "Registration Success!", Toast.LENGTH_SHORT).show();
+                                Login.user = users;
                                 startActivity(new Intent(getApplicationContext(), ChatLog.class));
                             }
                         }else{

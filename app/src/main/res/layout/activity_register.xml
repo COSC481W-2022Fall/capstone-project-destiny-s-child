@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/background_mdpi"
     tools:context="com.emich.vibe.Register">
 
     <TextView
@@ -104,9 +104,12 @@
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         android:layout_marginTop="32dp"
+        android:layout_marginBottom="18dp"
+        android:background="#FFBB86FC"
+        android:padding="10dp"
         android:text="register"
         android:textSize="20sp"
-        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/createtext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
@@ -120,8 +123,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:text="Already have Account? Login here"
+        android:textColor="#F0302929"
         android:textSize="17dp"
-        android:textColor="#FFBF00"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerBtn"
