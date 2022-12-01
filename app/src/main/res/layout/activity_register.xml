@@ -96,13 +96,13 @@
 
     <Button
         android:id="@+id/registerBtn"
-        android:background="#FFBB86FC"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="18dp"
+        android:background="#FFBB86FC"
         android:padding="10dp"
         android:text="register"
         android:textSize="20sp"
@@ -118,9 +118,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:text="Already have Account? Login here"
-        android:textStyle="bold"
         android:textColor="#F0302929"
         android:textSize="17dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerBtn" />
