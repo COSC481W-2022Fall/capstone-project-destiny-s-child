@@ -37,10 +37,6 @@
         <activity
             android:name="com.emich.vibe.Register"
             android:exported="false" />
-        <activity
-            android:name="com.emich.vibe.FriendSearch"
-            android:exported="false"
-            android:theme="@style/Theme.Design.NoActionBar"/>
 
         <activity
             android:name="com.emich.vibe.ChangePassword"
