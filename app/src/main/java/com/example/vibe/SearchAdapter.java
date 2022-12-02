@@ -53,6 +53,7 @@ public class SearchAdapter extends AppCompatActivity {
     private AlertDialog dialog;
     private EditText searchField;
     private Button search, cancelSearch, add, cancelAdd;
+    String imageID = null;
 
     public SearchAdapter(Context context, LayoutInflater layoutInflater) {
         db = FirebaseFirestore.getInstance();
@@ -117,7 +118,7 @@ public class SearchAdapter extends AppCompatActivity {
             username.setAutoSizeTextTypeWithDefaults(AUTO_SIZE_TEXT_TYPE_UNIFORM);
         }
         username.setText(userDocument.getId());
-        String imageID = null;
+
         try {
             imageID = userDocument.get("image").toString();
         }catch(NullPointerException npe){
@@ -179,6 +180,7 @@ public class SearchAdapter extends AppCompatActivity {
                 Map<String, Object> chat = new HashMap<>();
                 //this is the unique ID created for the chat between these 2 users
                 chat.put("id", newChatId);
+                chat.put("image", imageID);
                 //adding the user ID's into the database as an arrayList
                 ArrayList<String> ids = new ArrayList<>();
                 ids.add(0, CurrentUser.getUid());

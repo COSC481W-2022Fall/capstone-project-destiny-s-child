@@ -6,12 +6,14 @@ public class Chat {
 
     String id;
     List<String> ids;
+    String image;
 
     public Chat(){}
 
-    public Chat(String id, List<String> ids){
+    public Chat(String id, List<String> ids,String image){
         this.id = id;
         this.ids = ids;
+        this.image = image;
     }
 
     public String getId(){
@@ -21,4 +23,6 @@ public class Chat {
     public List<String> getIds(){
         return ids;
     }
+
+    public String getImage(){return image;}
 }
