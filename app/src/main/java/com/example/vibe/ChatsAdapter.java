@@ -3,16 +3,19 @@ package com.example.vibe;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.text.SymbolTable;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.vibe.messages.User;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -35,12 +38,14 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView show;
+        public ImageView pp;
 
 
         public ViewHolder(View view){
             super(view);
             show = view.findViewById(R.id.chatName1);
             deleteButton = view.findViewById(R.id.deleteButton);
+            pp = view.findViewById(R.id.profilePic);
 
         }
 
@@ -88,8 +93,10 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
 
             }
         });
-
+        System.out.println(chat.getImage());
+        System.out.println(chat.getIds());
         holder.show.setText(receivername);
+        Glide.with(context).load(chat.getImage()).placeholder(R.drawable.icons8_user_80).into(holder.pp);
 
     }
 

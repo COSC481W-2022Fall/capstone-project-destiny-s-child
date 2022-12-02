@@ -19,18 +19,18 @@
 
         <ImageView
             android:id="@+id/profilePic"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/icons8_user_80" />
 
         <LinearLayout
-            android:layout_width="308dp"
-            android:layout_height="117dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
+            android:layout_width="326dp"
+            android:layout_height="93dp"
+            android:layout_marginStart="-14dp"
             android:layout_marginEnd="5dp"
             android:layout_toEndOf="@+id/profilePic"
             android:gravity="center"
@@ -49,10 +49,11 @@
 
             <Button
                 android:id="@+id/deleteButton"
-                android:layout_width="wrap_content"
+                android:layout_width="102dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="100dp"
                 android:layout_marginRight="1dp"
+                android:background="#6D37AE"
                 android:text="Delete" />
 
 
