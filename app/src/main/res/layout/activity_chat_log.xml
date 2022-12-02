@@ -55,8 +55,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messagesRecyclerView"
-        android:layout_width="424dp"
-        android:layout_height="691dp"
+        android:layout_width="438dp"
+        android:layout_height="698dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
