@@ -5,6 +5,7 @@ import android.content.ReceiverCallNotAllowedException;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,6 +54,8 @@ public class ConversationView extends AppCompatActivity {
     long millis;
 
     Users reciever;
+    boolean isBlocked = false;
+    ArrayList<String> blockList = new ArrayList<>();
     List<Users> usersList;
     List<Users> current;
     CollectionReference usersReference;
@@ -123,6 +127,40 @@ public class ConversationView extends AppCompatActivity {
         Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
         username.setText(userId);
+        isBlocked();
+
+
+        // User Info -- tapping username displays option to block
+        username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View userInfoDialog = getLayoutInflater().inflate(R.layout.popup_user_info, null);
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ConversationView.this);
+                Button block = userInfoDialog.findViewById(R.id.blockButton);
+                Button close = userInfoDialog.findViewById(R.id.userInfoCloseButton);
+                TextView username = userInfoDialog.findViewById(R.id.userInfoName);
+
+                dialogBuilder.setView(userInfoDialog);
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
+                dialog.getWindow().setLayout(900, 600);
+
+                username.setText(userId);
+                block.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(ConversationView.this, "BLOCKED", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,12 +186,31 @@ public class ConversationView extends AppCompatActivity {
         });
 
 
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                displayMessage(myUsername, userId);
-            }
-        });
+        // if blocklist contains userid
+        if(!isBlocked) {
+            collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    displayMessage(myUsername, userId);
+                }
+            });
+        }
+    }
+
+    private void isBlocked() {
+        db.collection("users/" + myUsername + "/blocklist")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for(QueryDocumentSnapshot document : task.getResult()) {
+                            blockList.add(document.getId());
+                        }
+                        if(blockList.contains(userId)) {
+                            isBlocked = true;
+                        }
+                    }
+                });
     }
 
     private void createMessage() {
