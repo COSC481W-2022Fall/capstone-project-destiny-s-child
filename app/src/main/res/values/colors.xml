@@ -13,6 +13,9 @@
     <color name="lime">#94ff91</color>
     <color name="black_light">#13260e</color>
     <color name="gray">#83877b</color>
+    <color name="blue_gray">#3F729B</color>
     <color name="egg">#fffaf2</color>
     <color name="lightblue">#76D1FF</color>
+    <color name="blue">#55ACEE</color>
+    <color name="darkblue">#003399</color>
 </resources>
