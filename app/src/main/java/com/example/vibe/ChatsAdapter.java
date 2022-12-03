@@ -2,6 +2,8 @@ package com.example.vibe;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.icu.text.SymbolTable;
 import android.media.Image;
 import android.view.LayoutInflater;
@@ -17,15 +19,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.vibe.messages.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageException;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
@@ -34,7 +46,15 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
     public static Button deleteButton;
     boolean oneChat = false;
 
-//    FirebaseUser fUser;
+    //create instance of firebase storage in order to access images on database
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+
+    //create firebase user instance to access current user's information
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    // Create a storage reference from our app
+    StorageReference storageRef = storage.getReference();
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView show;
@@ -69,6 +89,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Chat chat = chatList.get(position);
         String receivername = chat.getIds().get(1);
+        String senderName = chat.getIds().get(0);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,11 +114,32 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
 
             }
         });
-        System.out.println(chat.getImage());
         System.out.println(chat.getIds());
         holder.show.setText(receivername);
-        Glide.with(context).load(chat.getImage()).placeholder(R.drawable.icons8_user_80).into(holder.pp);
 
+            //display users profile pictures next to username in chat log
+            db.collection("users")
+                    .whereEqualTo("username", receivername)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (DocumentSnapshot document : task.getResult()) {
+                                    String uid = (String) document.get("id");
+                                        StorageReference photoReference = storageRef.child("images/" + uid + ".jpg");
+                                        final long ONE_MEGABYTE = 1024 * 1024;
+                                        photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                holder.pp.setImageBitmap(bmp);
+                                            }
+                                        });
+                                }
+                            }
+                        }
+                    });
     }
 
     @Override
@@ -122,6 +164,5 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
 
 
     }
-
 
 }
