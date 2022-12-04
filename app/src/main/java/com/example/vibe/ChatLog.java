@@ -28,7 +28,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChatLog extends AppCompatActivity {
     FloatingActionButton addButton;
@@ -90,8 +92,8 @@ public class ChatLog extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                chatList.remove(viewHolder.getAdapterPosition());
-                // TODO: delete from database here
+                String receiverId = chatList.get(viewHolder.getAdapterPosition()).getIds().get(1);
+                deleteChat(receiverId);
             }
         };
         new ItemTouchHelper(ith).attachToRecyclerView(chatRecyclerView);
@@ -137,5 +139,20 @@ public class ChatLog extends AppCompatActivity {
         });
     }
 
-
+    public void deleteChat(String username){
+        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("chats");
+        Query ids = collectionReference.whereArrayContains("ids", username);
+        ids.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error != null)
+                    return;
+                if(ids != null) {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : value) {
+                        queryDocumentSnapshot.getReference().delete();
+                    }
+                }
+            }
+        });
+    }
 }

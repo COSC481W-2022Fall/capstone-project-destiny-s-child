@@ -330,11 +330,13 @@ public class ConversationView extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                for(QueryDocumentSnapshot document : task.getResult()) {
-                                    blockList.add(document.get("name").toString());
-                                }
-                                if(!blockList.contains(userId)) {
-                                    displayMessage(myUsername, userId);
+                                if(task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        blockList.add(document.get("name").toString());
+                                    }
+                                    if (!blockList.contains(userId)) {
+                                        displayMessage(myUsername, userId);
+                                    }
                                 }
                             }
                         });
