@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/background_mdpi"
     tools:context=".Login">
 
 
-
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
         android:text="Welcome to Vibe"
         android:textColor="#FFF"
         android:textSize="35dp"
@@ -20,22 +19,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19"
-        />
+        app:layout_constraintVertical_bias="0.19" />
 
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
         android:layout_marginTop="10dp"
+        android:text=""
         android:textColor="#DFE2E3"
         android:textSize="21dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
     <EditText
@@ -86,9 +83,9 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="50dp"
+        android:padding="10dp"
         android:text="Login"
         android:textSize="20sp"
-        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/password"
@@ -101,33 +98,33 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:text="New Account? Sign Up Here"
+        android:textStyle="bold"
+        android:textColor="#F0302929"
         android:textSize="17dp"
-        android:textColor="#FFBF00"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginBtn"
-        />
+        app:layout_constraintTop_toBottomOf="@id/loginBtn" />
 
 
     <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/newAccount"
-        app:layout_constraintVertical_bias="0.39"
-        />
+        app:layout_constraintVertical_bias="0.39" />
 
     <TextView
         android:id="@+id/forgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Forgot password?"
-        android:textColor="#FFBF00"
+        android:textStyle="bold"
+        android:textColor="#F0302929"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
