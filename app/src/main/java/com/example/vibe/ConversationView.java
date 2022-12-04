@@ -123,6 +123,7 @@ public class ConversationView extends AppCompatActivity {
                         blockedUser.put("name", userId);
                         db.collection("users").document(Login.user.getUsername()).collection("blocklist").document(userId).set(blockedUser);
                         dialog.dismiss();
+                        startActivity(new Intent(getApplicationContext(), ChatLog.class));
                     }
                 });
                 close.setOnClickListener(new View.OnClickListener() {
