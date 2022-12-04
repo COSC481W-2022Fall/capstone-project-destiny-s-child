@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/purple_200"
     tools:context=".Settings_View">
 
 
@@ -52,9 +53,10 @@
         android:id="@+id/displayUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="118dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="68dp"
         android:text="username"
-        android:textColor="@color/purple_700"
+        android:textColor="@color/white"
         android:textSize="32dp"
         app:layout_constraintBottom_toTopOf="@+id/change_pass"
         app:layout_constraintEnd_toEndOf="parent"

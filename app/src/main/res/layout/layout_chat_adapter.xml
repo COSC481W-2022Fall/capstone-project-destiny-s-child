@@ -13,25 +13,24 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="false"
+        android:layout_marginTop="-1dp"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:background="@drawable/customborder">
 
         <ImageView
             android:id="@+id/profilePic"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="29dp"
+            android:layout_marginTop="0dp"
             android:src="@drawable/icons8_user_80" />
 
         <LinearLayout
-            android:layout_width="326dp"
-            android:layout_height="93dp"
-            android:layout_marginStart="-14dp"
-            android:layout_marginEnd="5dp"
+            android:layout_width="305dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="17dp"
             android:layout_toEndOf="@+id/profilePic"
             android:gravity="center"
             android:orientation="horizontal">
@@ -49,8 +48,8 @@
 
             <Button
                 android:id="@+id/deleteButton"
-                android:layout_width="102dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
                 android:layout_marginLeft="100dp"
                 android:layout_marginRight="1dp"
                 android:background="#6D37AE"
