@@ -4,6 +4,8 @@ import static android.widget.TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
@@ -21,10 +23,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -41,7 +46,15 @@ import java.util.Map;
  */
 public class SearchAdapter extends AppCompatActivity {
     FirebaseFirestore db;
-    StorageReference sr = FirebaseStorage.getInstance().getReference();
+    //create instance of firebase storage in order to access images on database
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+
+    //create firebase user instance to access current user's information
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+    // Create a storage reference from our app
+    StorageReference storageRef = storage.getReference();
+
     QueryDocumentSnapshot userDocument;
     Context context;
     View searchDialog, addDialog;
@@ -119,19 +132,31 @@ public class SearchAdapter extends AppCompatActivity {
         }
         username.setText(userDocument.getId());
 
-        try {
-            imageID = userDocument.get("image").toString();
-        }catch(NullPointerException npe){
-            System.out.println("ImageId is null, no image was uploaded");
-        }
-        System.out.println("this is the image url: " + imageID);
         ImageView profilePicture = addDialog.findViewById(R.id.searchProPic);
-        profilePicture.getBackground().setAlpha(255);
-        if(imageID != null) {
-            profilePicture.getBackground().setAlpha(0);
-            //GLide is for loading the image with the URL into the imageView
-            Glide.with(addDialog).load(imageID).into(profilePicture);
-        }
+
+        db.collection("users")
+                .whereEqualTo("username", userDocument.getId())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for(DocumentSnapshot document : task.getResult()) {
+                                String uid = (String) document.get("id");
+                                StorageReference photoReference = storageRef.child("images/" + uid + ".jpg");
+                                final long ONE_MEGABYTE = 1024*1024;
+                                photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                    @Override
+                                    public void onSuccess(byte[] bytes) {
+                                        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                        profilePicture.setImageBitmap(bmp);
+
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
 
 
         // dialog buttons
