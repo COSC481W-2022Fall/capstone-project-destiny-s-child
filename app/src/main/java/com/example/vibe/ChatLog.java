@@ -96,6 +96,9 @@ public class ChatLog extends AppCompatActivity {
         collectionReference.whereArrayContains("ids", currentUserName).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error != null) {
+                    return;
+                }
                 if(!chatList.isEmpty())
                     chatList.clear();
                 for(QueryDocumentSnapshot queryDocumentSnapshot : value){
