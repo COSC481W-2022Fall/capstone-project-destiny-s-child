@@ -142,9 +142,11 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.getResult().isEmpty())
                                 return;
-                        DocumentSnapshot document = task.getResult().getDocuments().get(0);
-                        user = document.toObject(Users.class);
-                        user.setUid(auth.getUid());
+                        if(task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                            user = document.toObject(Users.class);
+                            user.setUid(auth.getUid());
+                        }
                     }
                 });
     }

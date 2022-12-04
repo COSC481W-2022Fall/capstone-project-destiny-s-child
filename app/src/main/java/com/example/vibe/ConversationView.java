@@ -148,10 +148,12 @@ public class ConversationView extends AppCompatActivity {
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for(QueryDocumentSnapshot document : task.getResult()){
-                    usersList.add(document.toObject(Users.class));
+                if(task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        usersList.add(document.toObject(Users.class));
+                    }
+                    reciever = usersList.get(0);
                 }
-                reciever = usersList.get(0);
             }
         });
 
@@ -220,8 +222,10 @@ public class ConversationView extends AppCompatActivity {
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for(QueryDocumentSnapshot document : task.getResult()){
-                            usersList.add(document.toObject(Users.class));
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                usersList.add(document.toObject(Users.class));
+                            }
                         }
                     }
                 });
@@ -238,10 +242,12 @@ public class ConversationView extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for(QueryDocumentSnapshot document : task.getResult()){
-                            current.add(document.toObject(Users.class));
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                current.add(document.toObject(Users.class));
+                            }
+                            myUsername = current.get(0).getUsername();
                         }
-                        myUsername = current.get(0).getUsername();
                     }
                 });
 
