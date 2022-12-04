@@ -206,6 +206,7 @@ public class ConversationView extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             Intent intent = new Intent(ConversationView.this, ChatLog.class);
             startActivity(intent);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
