@@ -1,6 +1,7 @@
 package com.example.vibe;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -41,6 +42,10 @@ public class ChangePassword extends AppCompatActivity {
         setContentView(R.layout.activity_change_password);
 
         getSupportActionBar().setTitle("Change password");
+        //calling action bar
+        ActionBar actionBar = getSupportActionBar();
+        //showing back button in action bar
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         PwdNew = findViewById(R.id.newpassword);
         PwdCurr = findViewById(R.id.currentpass);
