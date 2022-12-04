@@ -1,8 +1,10 @@
 package com.example.vibe;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -79,6 +81,20 @@ public class ChatLog extends AppCompatActivity {
         ChatsProvider chatsProvider = new ChatsProvider();
         CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("chats");
 
+        // Slide to delete functionality
+        ItemTouchHelper.SimpleCallback ith = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                chatList.remove(viewHolder.getAdapterPosition());
+                // TODO: delete from database here
+            }
+        };
+        new ItemTouchHelper(ith).attachToRecyclerView(chatRecyclerView);
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
