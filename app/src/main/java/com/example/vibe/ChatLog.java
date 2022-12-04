@@ -62,7 +62,12 @@ public class ChatLog extends AppCompatActivity {
         });
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String currentUserName = currentUser.getUid();
+
+        // currentUserName must be final before being passed to inner classes
+        String temp = "";
+        if(currentUser != null)
+            temp = currentUser.getUid();
+        final String currentUserName = temp;
 
         //RecyclerView
         chatRecyclerView = findViewById(R.id.messagesRecyclerView);
