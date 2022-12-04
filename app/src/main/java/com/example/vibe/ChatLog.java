@@ -62,6 +62,7 @@ public class ChatLog extends AppCompatActivity {
         });
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert currentUser != null;
         String currentUserName = currentUser.getUid();
 
         //RecyclerView
