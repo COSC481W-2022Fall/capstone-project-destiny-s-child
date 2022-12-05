@@ -46,15 +46,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/deleteButton"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="1dp"
-                android:background="#6D37AE"
-                android:text="Delete" />
-
 
         </LinearLayout>
 

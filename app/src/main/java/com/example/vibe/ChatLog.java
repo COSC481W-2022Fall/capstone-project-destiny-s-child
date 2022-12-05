@@ -1,8 +1,10 @@
 package com.example.vibe;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +28,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChatLog extends AppCompatActivity {
     FloatingActionButton addButton;
@@ -62,7 +66,12 @@ public class ChatLog extends AppCompatActivity {
         });
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String currentUserName = currentUser.getUid();
+
+        // currentUserName must be final before being passed to inner classes
+        String temp = "";
+        if(currentUser != null)
+            temp = currentUser.getUid();
+        final String currentUserName = temp;
 
         //RecyclerView
         chatRecyclerView = findViewById(R.id.messagesRecyclerView);
@@ -74,6 +83,20 @@ public class ChatLog extends AppCompatActivity {
         ChatsProvider chatsProvider = new ChatsProvider();
         CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("chats");
 
+        // Slide to delete functionality
+        ItemTouchHelper.SimpleCallback ith = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                String receiverId = chatList.get(viewHolder.getAdapterPosition()).getIds().get(1);
+                deleteChat(receiverId);
+            }
+        };
+        new ItemTouchHelper(ith).attachToRecyclerView(chatRecyclerView);
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -100,6 +123,9 @@ public class ChatLog extends AppCompatActivity {
         collectionReference.whereArrayContains("ids", currentUserName).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error != null) {
+                    return;
+                }
                 if(!chatList.isEmpty())
                     chatList.clear();
                 for(QueryDocumentSnapshot queryDocumentSnapshot : value){
@@ -113,5 +139,20 @@ public class ChatLog extends AppCompatActivity {
         });
     }
 
-
+    public void deleteChat(String username){
+        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("chats");
+        Query ids = collectionReference.whereArrayContains("ids", username);
+        ids.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error != null)
+                    return;
+                if(ids != null) {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : value) {
+                        queryDocumentSnapshot.getReference().delete();
+                    }
+                }
+            }
+        });
+    }
 }

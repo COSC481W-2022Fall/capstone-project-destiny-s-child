@@ -64,7 +64,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
         public ViewHolder(View view){
             super(view);
             show = view.findViewById(R.id.chatName1);
-            deleteButton = view.findViewById(R.id.deleteButton);
+//            deleteButton = view.findViewById(R.id.deleteButton);
             pp = view.findViewById(R.id.profilePic);
 
         }
@@ -100,20 +100,20 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
         });
 
 
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                oneChat = false;
-                deleteChat(receivername, view);
-                System.out.println("chat list size = " + chatList.size());
-                if(chatList.size() == 1){
-                    Intent intent = new Intent(view.getContext(), ChatLog.class);
-                    context.startActivity(intent);
-                }
-
-
-            }
-        });
+//        deleteButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                oneChat = false;
+//                deleteChat(receivername, view);
+//                System.out.println("chat list size = " + chatList.size());
+//                if(chatList.size() == 1){
+//                    Intent intent = new Intent(view.getContext(), ChatLog.class);
+//                    context.startActivity(intent);
+//                }
+//
+//
+//            }
+//        });
         System.out.println(chat.getIds());
         holder.show.setText(receivername);
 
@@ -147,22 +147,22 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
         return chatList.size();
     }
 
-    public void deleteChat(String username, View view){
-        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("chats");
-        Query ids = collectionReference.whereArrayContains("ids", username);
-        System.out.println(ids.toString());
-        ids.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(ids != null) {
-                    for (QueryDocumentSnapshot queryDocumentSnapshot : value) {
-                        queryDocumentSnapshot.getReference().delete();
-                    }
-                }
-            }
-        });
-
-
-    }
+//    public void deleteChat(String username, View view){
+//        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("chats");
+//        Query ids = collectionReference.whereArrayContains("ids", username);
+//        System.out.println(ids.toString());
+//        ids.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                if(ids != null) {
+//                    for (QueryDocumentSnapshot queryDocumentSnapshot : value) {
+//                        queryDocumentSnapshot.getReference().delete();
+//                    }
+//                }
+//            }
+//        });
+//
+//
+//    }
 
 }
