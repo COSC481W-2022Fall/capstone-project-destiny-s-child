@@ -53,7 +53,7 @@ public class ChatLog extends AppCompatActivity {
 
 
         //do not display title of app
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // settings button with intent
         settingsButton = (ImageView)findViewById(R.id.settingsButton);
