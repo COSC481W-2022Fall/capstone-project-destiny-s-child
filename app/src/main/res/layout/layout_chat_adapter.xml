@@ -17,12 +17,12 @@
         android:layout_marginTop="-1dp"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
-        android:background="#c100ff">
+        android:background="#55c100ff">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_centerVertical="true"
             android:elevation="12dp"
             android:layout_marginStart="29dp"
