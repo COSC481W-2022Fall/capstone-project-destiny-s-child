@@ -1,5 +1,6 @@
 package com.emich.vibe;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -28,7 +29,7 @@ public class Message {
     }
 
     public void setTimePosted(long timePosted) {
-        this.timePosted = (int) timePosted;
+        this.timePosted = timePosted;
     }
 
     public String getId() {
@@ -71,5 +72,10 @@ public class Message {
         this.message = message;
     }
 
+    public String getDate(long time){
+        DateFormat format = new SimpleDateFormat("HH:mm");
+        Date posted = new Date(time);
+        return format.format(posted);
+    }
 
 }

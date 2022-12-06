@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whitetwo">
+    android:background="@drawable/background_mdpi">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/layout_chat"
@@ -73,7 +73,7 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e0e0e0"
+        android:background="#6D37AE"
         app:layout_constraintBottom_toTopOf="@+id/layout_chatbox" />
 
     <RelativeLayout
@@ -103,12 +103,16 @@
 
         <ImageButton
             android:id="@+id/send"
-            android:layout_width="32dp"
+            android:layout_width="52dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:contentDescription="@string/app_name"
-            android:minHeight="48dp"
+            android:background="#CCCCCC"
+            android:layout_centerVertical="true"
+            android:minHeight="40dp"
+            android:minWidth="75dp"
+            android:layout_marginRight="5dp"
             android:src="@drawable/ic_baseline_arrow_upward_24"
             app:tint="@color/purple_700" />
 

@@ -28,11 +28,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     //String myUsername;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView show;
+        public TextView show, date;
 
         public ViewHolder(View view){
             super(view);
             show = view.findViewById(R.id.textViewMessage);
+            date = view.findViewById(R.id.date);
         }
 
     }
@@ -58,7 +59,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
         Message message = mChat.get(position);
         holder.show.setText(message.getMessage());
-
+        holder.date.setText(message.getDate(message.getTimePosted()));
     }
 
     @Override

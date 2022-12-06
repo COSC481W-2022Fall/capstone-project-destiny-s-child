@@ -77,8 +77,8 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
     @NonNull
     @Override
     public ChatsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_chat_adapter, parent, false);
-            return new ViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_chat_adapter, parent, false);
+        return new ViewHolder(view);
 
 
     }
@@ -115,29 +115,29 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
         System.out.println(chat.getIds());
         holder.show.setText(receivername);
 
-            //display users profile pictures next to username in chat log
-            db.collection("users")
-                    .whereEqualTo("username", receivername)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (DocumentSnapshot document : task.getResult()) {
-                                    String uid = (String) document.get("id");
-                                        StorageReference photoReference = storageRef.child("images/" + uid + ".jpg");
-                                        final long ONE_MEGABYTE = 1024 * 1024;
-                                        photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                            @Override
-                                            public void onSuccess(byte[] bytes) {
-                                                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                holder.pp.setImageBitmap(bmp);
-                                            }
-                                        });
-                                }
+        //display users profile pictures next to username in chat log
+        db.collection("users")
+                .whereEqualTo("username", receivername)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                String uid = (String) document.get("id");
+                                StorageReference photoReference = storageRef.child("images/" + uid + ".jpg");
+                                final long ONE_MEGABYTE = 1024 * 1024;
+                                photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                    @Override
+                                    public void onSuccess(byte[] bytes) {
+                                        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                        holder.pp.setImageBitmap(bmp);
+                                    }
+                                });
                             }
                         }
-                    });
+                    }
+                });
     }
 
     @Override
