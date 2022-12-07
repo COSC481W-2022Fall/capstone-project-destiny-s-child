@@ -15,28 +15,24 @@
         android:background="#6D37AE"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="Vibe"
-        app:titleTextAppearance="@style/TextAppearance.AppCompat.Display2"
         app:layout_constraintBottom_toTopOf="@+id/messagesRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Vibe"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Display2" />
 
     <ImageButton
         android:id="@+id/settingsButton"
-        android:layout_width="45dp"
+        android:layout_width="48dp"
         android:layout_height="45dp"
-        android:layout_marginStart="350dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="7dp"
         android:background="@android:color/transparent"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar3"
         app:layout_constraintEnd_toEndOf="@+id/toolbar3"
-        app:layout_constraintHorizontal_bias="0.8"
-        app:layout_constraintStart_toStartOf="@+id/toolbar3"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/baseline_settings_20"
@@ -49,16 +45,15 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:clickable="true"
-        app:srcCompat="@drawable/icon"
         app:backgroundTint="#FFBB86FC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:srcCompat="@drawable/icon" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messagesRecyclerView"
-        android:layout_width="438dp"
-        android:layout_height="698dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
