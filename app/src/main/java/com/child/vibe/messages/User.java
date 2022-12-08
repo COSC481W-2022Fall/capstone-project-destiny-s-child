@@ -1,4 +1,4 @@
-package com.emich.vibe.messages;
+package com.child.vibe.messages;
 
 public class User {
 

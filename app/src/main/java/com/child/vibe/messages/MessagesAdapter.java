@@ -1,4 +1,4 @@
-package com.emich.vibe.messages;
+package com.child.vibe.messages;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.emich.vibe.R;
+import com.child.vibe.R;
 
 import java.util.List;
 

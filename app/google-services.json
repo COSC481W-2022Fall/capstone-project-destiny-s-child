@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1009347593878:android:6f2c8083773b7fd611e4b7",
         "android_client_info": {
-          "package_name": "com.emich.vibe"
+          "package_name": "com.child.vibe"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "1009347593878-3h7h6h5toeupl8bp0tt68p3jqr7lvf06.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.emich.vibe",
+            "package_name": "com.child.vibe",
             "certificate_hash": "98869a7d338cd94d5a89101f73cb4a59e37ba8a1"
           }
         },

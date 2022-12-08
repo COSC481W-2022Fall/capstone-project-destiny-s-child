@@ -7,11 +7,11 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.emich.vibe"
+        applicationId "com.child.vibe"
         minSdk 21
         targetSdk 32
-        versionCode 4
-        versionName "3.0"
+        versionCode 5
+        versionName "5.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,7 +26,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    namespace 'com.emich.vibe'
+    namespace 'com.child.vibe'
 }
 
 dependencies {

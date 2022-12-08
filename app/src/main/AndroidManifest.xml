@@ -14,18 +14,18 @@
         android:theme="@style/Theme.LoginPage"
         tools:targetApi="31">
         <activity
-            android:name="com.emich.vibe.ChatLog"
+            android:name="com.child.vibe.ChatLog"
             android:exported="false"
             android:theme="@style/Theme.Design.NoActionBar"/>
         <activity
-            android:name="com.emich.vibe.Settings_View"
+            android:name="com.child.vibe.Settings_View"
             android:exported="false" />
         <activity
-            android:name="com.emich.vibe.ConversationView"
+            android:name="com.child.vibe.ConversationView"
             android:exported="false"
             android:theme="@style/Theme.Design.NoActionBar"/>
         <activity
-            android:name="com.emich.vibe.SplashScreen"
+            android:name="com.child.vibe.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,19 +34,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.emich.vibe.Register"
+            android:name="com.child.vibe.Register"
             android:exported="false" />
 
         <activity
-            android:name="com.emich.vibe.ChangePassword"
+            android:name="com.child.vibe.ChangePassword"
             android:exported="true"
-            android:parentActivityName="com.emich.vibe.Settings_View">
+            android:parentActivityName="com.child.vibe.Settings_View">
         <meta-data
             android:name="android.app.lib_name"
             android:value="" />
         </activity>
         <activity
-            android:name="com.emich.vibe.Login"
+            android:name="com.child.vibe.Login"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -55,7 +55,7 @@
 <!--            </intent-filter>-->
         </activity>
         <activity
-            android:name="com.emich.vibe.MainActivity"
+            android:name="com.child.vibe.MainActivity"
             android:exported="false">
         </activity>
     </application>

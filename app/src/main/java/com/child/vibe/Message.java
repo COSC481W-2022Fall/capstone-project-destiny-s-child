@@ -1,4 +1,4 @@
-package com.emich.vibe;
+package com.child.vibe;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

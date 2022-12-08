@@ -1,10 +1,10 @@
-package com.emich.vibe;
+package com.child.vibe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.emich.vibe.R;
+import com.child.vibe.R;
 
 public class MainActivity extends AppCompatActivity {
 
