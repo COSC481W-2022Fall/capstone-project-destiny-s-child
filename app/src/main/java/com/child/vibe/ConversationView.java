@@ -67,7 +67,6 @@ public class ConversationView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation_view);
 
-
         username = findViewById(R.id.convoUsername);
         send = findViewById(R.id.send);
         editMessage = findViewById(R.id.edit_message);
@@ -157,6 +156,7 @@ public class ConversationView extends AppCompatActivity {
         });
 
 
+
         // display method only if contact isn't in user's blocklist
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -181,6 +181,7 @@ public class ConversationView extends AppCompatActivity {
     }
 
     private void createMessage() {
+        startActivity(getIntent());
         CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         String newID = CurrentUser.getUid() + userId;
         String textMessage = editMessage.getText().toString();
@@ -282,6 +283,7 @@ public class ConversationView extends AppCompatActivity {
 
     protected void onResume(){
         super.onResume();
+
         username = findViewById(R.id.convoUsername);
         send = findViewById(R.id.send);
         editMessage = findViewById(R.id.edit_message);
